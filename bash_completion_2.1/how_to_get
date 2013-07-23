@@ -1,0 +1,8 @@
+Go to one of:
+  http://bash-completion.alioth.debian.org/#download
+  git://git.debian.org/git/bash-completion/bash-completion.git
+and copy in the bash completion code.  Then run
+  ./configure
+  make 
+and you should be good to go.
+

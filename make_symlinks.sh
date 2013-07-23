@@ -21,9 +21,5 @@ ln -s -i ${DIR}/vimrc ~/.vimrc
 # Symlink the system's ~/.bashrc to bashrc here.
 ln -s -i ${DIR}/bashrc ~/.bashrc
 
-
-
-
-
-
+echo 'Dont forget to install bash_completion!  (see the bash_completion subdir)'
 

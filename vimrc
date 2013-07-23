@@ -19,6 +19,12 @@ let g:yankring_min_element_length = 2 "Don't add single letter deletes to ring
 "CTags
 nmap <silent> <leader>gc :!ctags -R *<CR>
 
+" Turn off swap files
+set noswapfile
+
+set cursorline
+set cursorcolumn
+
 "Wildmenu is cool
 set wildmode=longest,full
 set wildmenu
@@ -56,8 +62,8 @@ map <A-F11> <ESC>:call PrintColorSchemeList()<CR>
 map <leader>rcs :call RandomColorScheme(1)<CR><ESC>:echo g:colors_name<CR>
 
 "F4 = Toggle external paste mode
-noremap <F2> :set invpaste paste?<CR>
-set pastetoggle=<F2>
+noremap <F4> :set invpaste paste?<CR>
+set pastetoggle=<F4>
 
 "F5 = turn on and off spell check
 map <F5> <ESC>:call ToggleSpellCheck()<CR>
@@ -175,10 +181,10 @@ set autoindent
 set smartindent
 set t_Co=256
 
-"Set all tabs to 4 spaces
+"Set all tabs to 2 spaces
 "but NOT in makefile since in Makefile you need tabs
-set tabstop=4
-set shiftwidth=4
+set tabstop=2
+set shiftwidth=2
 set shiftround
 set expandtab
 autocmd FileType make setlocal noexpandtab
