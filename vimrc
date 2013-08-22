@@ -12,12 +12,20 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 nmap <silent> <leader>yrs :YRShow<CR>
 nmap <silent> <leader>yrc :YRClear<CR>
 
+" Clang format mappings
+" Use ctrl-K or use LEADER f c to Format Code (FC)
+map <C-K> :pyf ~/tools/clang-format.py<CR>
+imap <C-K> <ESC>:pyf ~/tools/clang-format.py<CR>i
+nmap <silent> <leader>fc :pyf ~/tools/clang-format.py<CR>
+
 "Yankring config setup
-let g:yankring_min_element_length = 2 "Don't add single letter deletes to ring
+"let g:yankring_min_element_length = 2 "Don't add single letter deletes to ring
 "Default to let Ctrl->N and Ctrl->P cycle through the yankring
 
 "CTags
 nmap <silent> <leader>gc :!ctags -R *<CR>
+
+" Highlight 80 chars
 
 " Turn off swap files
 set noswapfile
@@ -121,14 +129,6 @@ function! ToggleSpellCheck()
     endif
 endfunction
 
-"Highlight groups for things I don't like
-
-"Match and highlight any of {Error, Warning, Todo, Fixme} in a case
-"insensitive manner
-highlight SpecialText ctermbg=gray guibg=gray ctermfg=yellow guifg=yellow
-match SpecialText /\c(ERROR\|WARNING\|TODO\|FIXME)/
-
-"Syntax highlighting
 syntax enable
 
 "Better locating of C++ comments
@@ -258,5 +258,30 @@ function! PrintColorSchemeList()
     call map(cSchemeList, 'matchstr(v:val,"[^/]*[.]vim$")' )
     echo "Color Schemes: " cSchemeList
 endfunction
+
+
+"Highlight groups
+
+" Highlight text like TODO, FIXME, WARNING, and ERROR
+highlight SpecialText term=bold ctermbg=Yellow guibg=Yellow ctermfg=red guifg=red
+call matchadd("SpecialText", "TODO.*")
+call matchadd("SpecialText", "FIXME.*")
+call matchadd("SpecialText", "WARNING.*")
+call matchadd("SpecialText", "ERROR.*")
+
+
+" Identify lines that go over the 80 char limit.
+highlight TooLong ctermfg=Red guifg=Red ctermbg=Black guibg=Black
+call matchadd("TooLong", ".\{-80}.*")
+" This matches a line longer than 80 chars
+"2match TooLong /.\{-80}.*/
+
+" This matches from chars [80-1000]
+2match TooLong /\%<1000v.\%>80v/
+
+highlight ExtraSpace ctermfg=Red guifg=Red ctermbg=Red guibg=Red
+3match ExtraSpace /\s\+$/
+
+
 
 

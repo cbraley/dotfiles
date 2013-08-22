@@ -1,8 +1,38 @@
+#The variable unamestr is used to identify the current OS throughout my bashrc
+unamestr=`uname`
+
 # Aliases for new commands.
 
 # The "explore" command opens up a file browser in the current directory.
-alias explore='nautilus -n `pwd` 2> /dev/null'
+if [[ "$unamestr" == 'Darwin' ]]; then
+  # On MacOS use "open"
+  alias explore='open "`pwd`"'      
+  
+  # OS X defaults to BSD sed.  We need gnu sed for some of my bash
+  # completion scrips and other things to work.
+  alias sed='gsed'
+elif [[ "$unamestr" == 'Linux' ]]; then
+  # On Linux, use the nautilus file browser I like.
+  alias explore='nautilus -n `pwd` 2> /dev/null'
+elif [[ "$unamestr" == 'MINGW32_NT' ]]; then
+  # On windows, open windows explorer 
+  # TODO(cbraley): Note that this is untested!
+  alias explore='explorer .'
+fi
 
+# Make sure opt/local/bin is on the PATH when on Mac OS
+# Some MacOS programs mess with PATH ...
+if [[ "$unamestr" == 'Darwin' ]]; then
+  if [[ ":$PATH:" != *":$H/opt/local/bin:"* ]]; then 
+    # Fixup path
+    export PATH="/opt/local/bin:$PATH"
+  fi
+fi
+
+# Add tools from ~/tools to PATH
+if [[ ":$PATH:" != *":$H~/tools:"* ]]; then 
+  export PATH="~/tools:$PATH"
+fi
 
 # Bash history configuration.
 
@@ -19,17 +49,21 @@ HISTFILESIZE=200001
 
 # Allow extra bash completions if available.  /etc/bash_completion
 #  First, source the systems bash completion stuff (if it exists).
-if [ -f /etc/bash_completion ];
-then
+if [ -f /etc/bash_completion ]; then
   source /etc/bash_completion
+fi
+if [ -f /opt/local/etc/bash_completion ]; then
+  . /opt/local/etc/bash_completion
+fi
+if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
+    . /opt/local/etc/profile.d/bash_completion.sh
 fi
 
 # Now, source bash-completion code I downloaded.  This handles many
 # commmon file types.
-if [ -f `pwd`/bash_completion_2.1/bash_completion ];
-then
-  source `pwd`/bash_completion_2.1/bash_completion
-fi
+#if [ -f `pwd`/bash_completion_2.1/bash_completion ]; then
+#  source `pwd`/bash_completion_2.1/bash_completion
+#fi
 
 # Setup arrow-key based bash history search
 #
@@ -91,8 +125,36 @@ function __shortpath {
 
 # TODO: Figure out how to add \u@\h: (cbraley@some_machine) if
 # we are on a non-default machine.
-PS1="(\!):$(__shortpath "\w" 32)\$(git branch 2>/dev/null | grep -e '\* ' | sed 's/^..\(.*\)/($IRed\1$RS)/') $Yellow\$$RS"
-PS2=".. \$"
+#PS1="(\!):$(__shortpath "\w" 32)\$(git branch 2>/dev/null | grep -e '\* ' | sed 's/^..\(.*\)/($IRed\1$RS)/') $Yellow\$$RS"
+#PS2=".. \$"
+#export MYPS='$(echo -n "${PWD/#$HOME/~}" | awk -F "/" '"'"'{if (length($0) > 14) { if (NF>4) print $1 "/" $2 "/.../" $(NF-1) "/" $NF; else if (NF>3) print $1 "/" $2 "/.../" $NF; else print $1 "/.../" $NF; } else print $0;}'"'"')'
+#PROMPT_DIRTERM=3
+#PS1="(\!):\u@\w\$"
+
+
+#PS1='(\!):\u@$(~/tools/short_prompt_pwd.py)\$'
+#PS2='.. \$'
+
+function parse_git_dirty {
+  [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
+}
+function parse_git_branch {
+  #git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/[\1$(parse_git_dirty)]/"
+  git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
+}
+
+# TODO(cbraley): Include some code to check if we have a vim running in the current TTY
+function print_bg_procs {
+  vimsearchres=`ps -o command | grep vim.* | wc -l` 
+  if [[ $vimsearchres =~ ".*0" ]] ; then
+    echo ":VIMLESS:"
+  else 
+    echo ":VIMED:"
+  fi
+}
+
+PS1="($Blue\!$RS):$Yellow\u$RS@$Green\$(~/tools/short_prompt_pwd.py)$RS:[$Red\$(parse_git_branch)$RS]$Cyan\$$RS"
+PS2=".. \$ $Cyan>$RS "
 
 
 # -----------------------------------------------------------------------------
