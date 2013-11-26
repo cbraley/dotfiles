@@ -1,13 +1,23 @@
 #The variable unamestr is used to identify the current OS throughout my bashrc
 unamestr=`uname`
 
+# EC2 Config.
+source /Users/cbraley/Projects/EC2/ec2_setup.sh
+
+
 # Aliases for new commands.
+
+# Make a short alias for the pip Python package manager.
+alias pip='sudo /opt/local/bin/pip-2.7 '
+
+# Always use colorized ls output.
+alias ls='ls -G'
 
 # The "explore" command opens up a file browser in the current directory.
 if [[ "$unamestr" == 'Darwin' ]]; then
   # On MacOS use "open"
-  alias explore='open "`pwd`"'      
-  
+  alias explore='open "`pwd`"'
+
   # OS X defaults to BSD sed.  We need gnu sed for some of my bash
   # completion scrips and other things to work.
   alias sed='gsed'
@@ -15,7 +25,7 @@ elif [[ "$unamestr" == 'Linux' ]]; then
   # On Linux, use the nautilus file browser I like.
   alias explore='nautilus -n `pwd` 2> /dev/null'
 elif [[ "$unamestr" == 'MINGW32_NT' ]]; then
-  # On windows, open windows explorer 
+  # On windows, open windows explorer
   # TODO(cbraley): Note that this is untested!
   alias explore='explorer .'
 fi
@@ -23,16 +33,22 @@ fi
 # Make sure opt/local/bin is on the PATH when on Mac OS
 # Some MacOS programs mess with PATH ...
 if [[ "$unamestr" == 'Darwin' ]]; then
-  if [[ ":$PATH:" != *":$H/opt/local/bin:"* ]]; then 
+  if [[ ":$PATH:" != *":$H/opt/local/bin:"* ]]; then
     # Fixup path
     export PATH="/opt/local/bin:$PATH"
   fi
 fi
 
 # Add tools from ~/tools to PATH
-if [[ ":$PATH:" != *":$H~/tools:"* ]]; then 
+if [[ ":$PATH:" != *":$H~/tools:"* ]]; then
   export PATH="~/tools:$PATH"
 fi
+
+# Add tools from OpenImageIO to PATH
+if [[ ":$PATH:" != *":$H/Users/cbraley/Projects/OOIO/oiio/build/macosx/binaries:"* ]]; then
+  export PATH="/Users/cbraley/Projects/OOIO/oiio/build/macosx/binaries:$PATH"
+fi
+
 
 # Bash history configuration.
 
@@ -145,16 +161,16 @@ function parse_git_branch {
 
 # TODO(cbraley): Include some code to check if we have a vim running in the current TTY
 function print_bg_procs {
-  vimsearchres=`ps -o command | grep vim.* | wc -l` 
+  vimsearchres=`ps -o command | grep vim.* | wc -l`
   if [[ $vimsearchres =~ ".*0" ]] ; then
     echo ":VIMLESS:"
-  else 
+  else
     echo ":VIMED:"
   fi
 }
 
 PS1="($Blue\!$RS):$Yellow\u$RS@$Green\$(~/tools/short_prompt_pwd.py)$RS:[$Red\$(parse_git_branch)$RS]$Cyan\$$RS"
-PS2=".. \$ $Cyan>$RS "
+PS2=".. \[\$\] $Cyan>$RS "
 
 
 # -----------------------------------------------------------------------------

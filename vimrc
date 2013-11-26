@@ -1,6 +1,9 @@
 "Vim please; not vi...
 set nocompatible
 
+" I use pathogen to install some plugins.
+execute pathogen#infect()
+
 "Use ',' as the "leader" key; not '\'
 let mapleader = ","
 
@@ -8,14 +11,17 @@ let mapleader = ","
 nmap <silent> <leader>ev :tabnew $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
+"Helpers for looking up documentation in Dash.
+nmap <silent> <leader>d <Plug>DashSearch
+
 "Yankring mapings
-nmap <silent> <leader>yrs :YRShow<CR>
-nmap <silent> <leader>yrc :YRClear<CR>
+"nmap <silent> <leader>yrs :YRShow<CR>
+"nmap <silent> <leader>yrc :YRClear<CR>
 
 " Clang format mappings
 " Use ctrl-K or use LEADER f c to Format Code (FC)
 map <C-K> :pyf ~/tools/clang-format.py<CR>
-imap <C-K> <ESC>:pyf ~/tools/clang-format.py<CR>i
+imap <C-K> <ESC>:pyf ~/tools/clang-format.py<CR>
 nmap <silent> <leader>fc :pyf ~/tools/clang-format.py<CR>
 
 "Yankring config setup
@@ -24,8 +30,6 @@ nmap <silent> <leader>fc :pyf ~/tools/clang-format.py<CR>
 
 "CTags
 nmap <silent> <leader>gc :!ctags -R *<CR>
-
-" Highlight 80 chars
 
 " Turn off swap files
 set noswapfile
@@ -36,6 +40,8 @@ set cursorcolumn
 "Wildmenu is cool
 set wildmode=longest,full
 set wildmenu
+
+" Enable click support.
 set mouse=a
 
 " Don't do line wrapping.
@@ -282,6 +288,7 @@ call matchadd("TooLong", ".\{-80}.*")
 highlight ExtraSpace ctermfg=Red guifg=Red ctermbg=Red guibg=Red
 3match ExtraSpace /\s\+$/
 
-
+"autocmd BufEnter * highlight TooLong ctermfg=Red guifg=Red ctermbg=Black guibg=Black
+"autocmd BufEnter * call matchadd("TooLong", ".\{-80}.*")
 
 
