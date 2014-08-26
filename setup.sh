@@ -21,5 +21,11 @@ ln -s -i ${DIR}/vimrc ~/.vimrc
 # Symlink the system's ~/.bashrc to bashrc here.
 ln -s -i ${DIR}/bashrc ~/.bashrc
 
+# Setup tools.
+mkdir -p ~/tools
+ln -s -i ${DIR}/clang-format.py ~/tools/clang-format.py
+chmod +x ~/tools/clang-format.py
+ln -s -i ${DIR}/short_prompt_pwd.py ~/tools/short_prompt_pwd.py
+
 echo 'Dont forget to install bash_completion!  (see the bash_completion subdir)'
 
