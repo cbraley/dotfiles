@@ -131,6 +131,9 @@ endfunction
 
 syntax enable
 
+" Syntax highlighting for GLSL shaders.
+autocmd BufNewFile,BufRead *.vp,*.fp,*.gp,*.vs,*.fs,*.gs,*.tcs,*.tes,*.cs,*.vert,*.frag,*.geom,*.tess,*.shd,*.gls,*.glsl set ft=glsl450
+
 "Better locating of C++ comments
 "got this on the internet somewhere...
 set comments=sl:/*,mb:\ *,elx:\ */

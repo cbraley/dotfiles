@@ -24,13 +24,13 @@ import sys
 import vim
 
 # Change this to the full path if clang-format is not on the path.
-binary = 'clang-format'
+binary = 'clang-format-3.4'
 
 # Change this to format according to other formatting styles. See the output of
 # 'clang-format --help' for a list of supported styles. The default looks for
 # a '.clang-format' or '_clang-format' file to indicate the style that should be
 # used.
-style = 'file'
+style = 'Google'
 
 def main():
   # Get the current text.
