@@ -124,32 +124,6 @@ RS="\[\033[0m\]"    # reset
 # Setup a pretty+informative bash prompt.
 # PS1 = The "normal" prompt when typing a new command.
 # PS2 = The secondary prompt when a command needs more input.
-# TODO: Only do the \u@\h if this is not my default desktop...
-
-# This one has no chomping...
-#PS1="(\!):\u@\h:\w\$(git branch 2>/dev/null | grep -e '\* ' | sed 's/^..\(.*\)/($IRed\1$RS)/') $Yellow\$$RS"
-
-# TODO: Implement a nicer chomp.
-function __shortpath {
-    if [[ ${#1} -gt $2 ]]; then
-        len=$2+3
-        echo "..."${1: -$len}
-    else
-        echo $1
-    fi
-}
-
-# TODO: Figure out how to add \u@\h: (cbraley@some_machine) if
-# we are on a non-default machine.
-#PS1="(\!):$(__shortpath "\w" 32)\$(git branch 2>/dev/null | grep -e '\* ' | sed 's/^..\(.*\)/($IRed\1$RS)/') $Yellow\$$RS"
-#PS2=".. \$"
-#export MYPS='$(echo -n "${PWD/#$HOME/~}" | awk -F "/" '"'"'{if (length($0) > 14) { if (NF>4) print $1 "/" $2 "/.../" $(NF-1) "/" $NF; else if (NF>3) print $1 "/" $2 "/.../" $NF; else print $1 "/.../" $NF; } else print $0;}'"'"')'
-#PROMPT_DIRTERM=3
-#PS1="(\!):\u@\w\$"
-
-
-#PS1='(\!):\u@$(~/tools/short_prompt_pwd.py)\$'
-#PS2='.. \$'
 
 function parse_git_dirty {
   [[ $(git status 2> /dev/null | tail -n1) != "nothing to commit, working directory clean" ]] && echo "*"
@@ -159,19 +133,8 @@ function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
-# TODO(cbraley): Include some code to check if we have a vim running in the current TTY
-function print_bg_procs {
-  vimsearchres=`ps -o command | grep vim.* | wc -l`
-  if [[ $vimsearchres =~ ".*0" ]] ; then
-    echo ":VIMLESS:"
-  else
-    echo ":VIMED:"
-  fi
-}
-
 PS1="($Blue\!$RS):$Yellow\u$RS@$Green\$(~/tools/short_prompt_pwd.py)$RS:[$Red\$(parse_git_branch)$RS]$Cyan\$$RS"
 PS2=".. \[\$\] $Cyan>$RS "
-
 
 # -----------------------------------------------------------------------------
 # Boilerplate not added by me -------------------------------------------------
