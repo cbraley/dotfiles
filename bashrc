@@ -6,8 +6,8 @@ unamestr=`uname`
 # The "explore" command opens up a file browser in the current directory.
 if [[ "$unamestr" == 'Darwin' ]]; then
   # On MacOS use "open"
-  alias explore='open "`pwd`"'      
-  
+  alias explore='open "`pwd`"'
+
   # OS X defaults to BSD sed.  We need gnu sed for some of my bash
   # completion scrips and other things to work.
   alias sed='gsed'
@@ -15,7 +15,7 @@ elif [[ "$unamestr" == 'Linux' ]]; then
   # On Linux, use the nautilus file browser I like.
   alias explore='nautilus -n `pwd` 2> /dev/null'
 elif [[ "$unamestr" == 'MINGW32_NT' ]]; then
-  # On windows, open windows explorer 
+  # On windows, open windows explorer
   # TODO(cbraley): Note that this is untested!
   alias explore='explorer .'
 fi
@@ -23,14 +23,14 @@ fi
 # Make sure opt/local/bin is on the PATH when on Mac OS
 # Some MacOS programs mess with PATH ...
 if [[ "$unamestr" == 'Darwin' ]]; then
-  if [[ ":$PATH:" != *":$H/opt/local/bin:"* ]]; then 
+  if [[ ":$PATH:" != *":$H/opt/local/bin:"* ]]; then
     # Fixup path
     export PATH="/opt/local/bin:$PATH"
   fi
 fi
 
 # Add tools from ~/tools to PATH
-if [[ ":$PATH:" != *":$H~/tools:"* ]]; then 
+if [[ ":$PATH:" != *":$H~/tools:"* ]]; then
   export PATH="~/tools:$PATH"
 fi
 

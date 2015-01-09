@@ -32,6 +32,9 @@ binary = 'clang-format-3.4'
 # used.
 style = 'Google'
 
+import os
+print os.getcwd()
+
 def main():
   # Get the current text.
   buf = vim.current.buffer
