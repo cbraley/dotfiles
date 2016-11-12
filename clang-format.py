@@ -24,7 +24,8 @@ import sys
 import vim
 
 # Change this to the full path if clang-format is not on the path.
-binary = 'clang-format-3.4'
+#binary = 'clang-format-3.4'
+binary = 'clang-format'  # Use the default on goobuntu.
 
 # Change this to format according to other formatting styles. See the output of
 # 'clang-format --help' for a list of supported styles. The default looks for

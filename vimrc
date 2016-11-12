@@ -8,15 +8,37 @@ let mapleader = ","
 nmap <silent> <leader>ev :tabnew $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
-"Yankring mapings
-nmap <silent> <leader>yrs :YRShow<CR>
-nmap <silent> <leader>yrc :YRClear<CR>
-
 " Clang format mappings
 " Use ctrl-K or use LEADER f c to Format Code (FC)
 map <C-K> :pyf ~/tools/clang-format.py<CR>
 imap <C-K> <ESC>:pyf ~/tools/clang-format.py<CR>i
 nmap <silent> <leader>fc :pyf ~/tools/clang-format.py<CR>
+
+let g:relative_num_on = 1
+function! NumberToggle()
+  if g:relative_num_on == 1
+    set norelativenumber
+    let g:relative_num_on = 0
+    echo "Relative number is off"
+  else
+    set relativenumber
+    let g:relative_num_on = 1
+    echo "Relative number is on"
+  endif
+endfunc
+set relativenumber
+
+"map <C-F11> <ESC>:call CycleColorScheme(1)<CR><ESC>:echo g:colors_name<CR>
+nmap <silent> <leader>tns <ESC>:call NumberToggle()<ESC><CR>
+
+" Clang include fixer
+"noremap <leader>cf :pyf /google/data/ro/projects/cymbal/tools/include-fixer/clang-include-fixer.py<cr>
+"noremap <C-I> :pyf /google/data/ro/projects/cymbal/tools/include-fixer/clang-include-fixer.py<cr>
+
+" Fix deps for blaze and includes (slow)
+" Fix It All.
+"noremap <leader>fia :pyf /google/data/ro/projects/cymbal/tools/include-fixer/clang-include-fixer.py<cr>:BlazeDepsUpdate<cr>
+
 
 "Yankring config setup
 "let g:yankring_min_element_length = 2 "Don't add single letter deletes to ring
@@ -24,8 +46,6 @@ nmap <silent> <leader>fc :pyf ~/tools/clang-format.py<CR>
 
 "CTags
 nmap <silent> <leader>gc :!ctags -R *<CR>
-
-" Highlight 80 chars
 
 " Turn off swap files
 set noswapfile
@@ -59,9 +79,9 @@ map <F6> <ESC>:call CompileTheLatex()<CR><ESC>:echo "Compiled the latex!"<CR>
 set t_Co=256 "My terminal has 256 colors
 
 "Good color schemes
-"calmar256-dark, lucius, mustang, camo, herald, xoria256
+"calmar256-dark, lucius, mustang, camo, herald, xoria256, molokai
 set background=dark
-let DFLT_COLOR_SCHEME = "mustang"
+let DFLT_COLOR_SCHEME = "thezone"
 
 "Cycle color schemes with F11
 map <C-F11> <ESC>:call CycleColorScheme(1)<CR><ESC>:echo g:colors_name<CR>
@@ -82,7 +102,7 @@ command! AutoIndent call g:cbAutoIndent()
 map <F9> <ESC>:AutoIndent<CR>
 
 "Shift+F9 = kill extra whitespace function written by me
-command! KillExtraWhiteSpace call g:cbKillExtraWhitespace()
+command! KillExtraWhiteSpace call g:CbKillExtraWhitespace()
 map <S-F9> <ESC>:KillExtraWhiteSpace<CR>
 
 "Also map ,kew to kill extra whitespace
@@ -115,6 +135,9 @@ map <S-Right> <C-Right>
 " map <F7> to toggle NERDTree window
 map <silent><F7> :NERDTreeToggle<CR>
 
+" autochdir will open nerdtree in the directory of the active buffer.
+set autochdir
+
 "Toggle spell check on and off using F5
 let g:spellOn = 0
 function! ToggleSpellCheck()
@@ -133,6 +156,8 @@ syntax enable
 
 " Syntax highlighting for GLSL shaders.
 autocmd BufNewFile,BufRead *.vp,*.fp,*.gp,*.vs,*.fs,*.gs,*.tcs,*.tes,*.cs,*.vert,*.frag,*.geom,*.tess,*.shd,*.gls,*.glsl set ft=glsl450
+
+au BufNewFile,BufRead *.def set filetype=python
 
 "Better locating of C++ comments
 "got this on the internet somewhere...
@@ -222,6 +247,7 @@ function! CycleColorScheme(dir)
     "Apply new scheme
     let tempStr = matchstr(cSchemeList[s:scheme],"[^/]*[.]vim$")
     :execute "colorscheme " strpart(tempStr, 0, len(tempStr)-4)
+    echo "Temp Str = " tempStr
 endfunction
 
 "Set a color scheme by name
@@ -274,17 +300,34 @@ call matchadd("SpecialText", "ERROR.*")
 
 
 " Identify lines that go over the 80 char limit.
-highlight TooLong ctermfg=Red guifg=Red ctermbg=Black guibg=Black
-call matchadd("TooLong", ".\{-80}.*")
+" highlight TooLong ctermfg=Red guifg=Red ctermbg=Black guibg=Black
+" call matchadd("TooLong", ".\{-81}.*")
 " This matches a line longer than 80 chars
 "2match TooLong /.\{-80}.*/
 
 " This matches from chars [80-1000]
-2match TooLong /\%<1000v.\%>80v/
+" 2match TooLong /\%<1000v.\%>81v/
+
+
+"autocmd FileType cpp,c,cxx,h,hpp,python,sh  setlocal cc=120
+"let &colorcolumn=join(range(81,999),",")
 
 highlight ExtraSpace ctermfg=Red guifg=Red ctermbg=Red guibg=Red
-3match ExtraSpace /\s\+$/
+"3match ExtraSpace /\s\+$/
 
+set nocompatible
+source /usr/share/vim/google/google.vim
+filetype plugin indent on
+syntax on
+
+" Turn on YCM.
+"Glug youcompleteme-google
+
+" Press F12 to clear previous searches.
+map <F12> <esc> :noh<return>
+
+" Markdown file support.
+autocmd BufNewFile,BufRead *.md setfiletype markdown
 
 
 
