@@ -58,8 +58,8 @@ call Highlight("Repeat"      , 110,  -1,  "BOLD")
 call Highlight("Todo"    , 88,  88,  "BOLD")
 
 " Cursor-Surrounding. --------------------------------------------------------
-call Highlight("CursorLine"  ,  -1,  236,  -1)
-call Highlight("CursorColumn",  -1,  237,  -1)
+call Highlight("CursorLine"  ,  -1,  238,  -1)
+call Highlight("CursorColumn",  -1,  238,  -1)
 
 " Environment
 call Highlight("Cursor"      , 231, 160,  "BOLD")
@@ -69,7 +69,7 @@ call Link("TermCursorNC", "Cursor")
 call Highlight("LineNr"      , 243, 237,  -1)
 call Highlight("CursorLineNr", 148, 242,  -1)
 call Highlight("Vertsplit"   , 148, 235,  -1)
-call Highlight("MatchParen"  , 236, 148,  -1)
+call Highlight("MatchParen"  , 214, 148,  "BOLD")
 
 " Searches and selections. ---------------------------------------------------
 
