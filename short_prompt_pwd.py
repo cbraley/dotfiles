@@ -4,6 +4,8 @@ import os
 from commands import getoutput
 from socket import gethostname
 hostname = gethostname()
+if len(hostname) > 11:
+  hostname = hostname[:8] + '...' + hostname[-2:]
 username = os.environ['USER']
 pwd = os.getcwd()
 homedir = os.path.expanduser('~')

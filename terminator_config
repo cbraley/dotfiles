@@ -1,2 +1,70 @@
-# This is my configuration file for the "terminator" terminal emulator.
-# It is symlinked to ~/.config/terminator/config
+[global_config]
+  enabled_plugins = CustomCommandsMenu, TerminalShot, APTURLHandler, LaunchpadBugURLHandler
+  inactive_color_offset = 0.72
+[keybindings]
+  next_tab = None
+  prev_tab = None
+[profiles]
+  [[default]]
+    use_system_font = False
+    font = Monospace 14
+    background_image = None
+    scroll_on_output = False
+    copy_on_selection = True
+    scrollback_infinite = True
+[layouts]
+  [[default]]
+    [[[child1]]]
+      type = Terminal
+      parent = window0
+      profile = default
+    [[[window0]]]
+      type = Window
+      parent = ""
+  [[xview]]
+    [[[child0]]]
+      position = 3114:285
+      type = Window
+      order = 0
+      parent = ""
+      size = 3073, 1398
+    [[[child1]]]
+      position = 569
+      type = HPaned
+      order = 0
+      parent = child0
+    [[[child3]]]
+      position = 875
+      type = HPaned
+      order = 1
+      parent = child1
+    [[[child5]]]
+      position = 808
+      type = HPaned
+      order = 1
+      parent = child3
+    [[[terminal2]]]
+      profile = default
+      command = /google/data/ro/projects/chauffeur/scs  ${CPP_BIN_FLAGS} ; bash
+      type = Terminal
+      order = 0
+      parent = child1
+    [[[terminal4]]]
+      profile = default
+      command = cd /usr/local/google/home/cbraley/Projects/car_scripts ; bash
+      type = Terminal
+      order = 0
+      parent = child3
+    [[[terminal7]]]
+      profile = default
+      command = /google/data/ro/projects/chauffeur/tile_proxy_local  ${CPP_BIN_FLAGS}  ; bash
+      type = Terminal
+      order = 1
+      parent = child5
+    [[[terminal6]]]
+      profile = default
+      command = /google/data/ro/projects/chauffeur/x_view  ${CPP_BIN_FLAGS}   ; bash
+      type = Terminal
+      order = 0
+      parent = child5
+[plugins]

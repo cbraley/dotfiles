@@ -14,22 +14,19 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 "Helpers for looking up documentation in Dash.
 nmap <silent> <leader>d <Plug>DashSearch
 
-"Yankring mapings
-"nmap <silent> <leader>yrs :YRShow<CR>
-"nmap <silent> <leader>yrc :YRClear<CR>
-
 " Clang format mappings
 " Use ctrl-K or use LEADER f c to Format Code (FC)
 map <C-K> :pyf ~/tools/clang-format.py<CR>
 imap <C-K> <ESC>:pyf ~/tools/clang-format.py<CR>
 nmap <silent> <leader>fc :pyf ~/tools/clang-format.py<CR>
 
-"Yankring config setup
-"let g:yankring_min_element_length = 2 "Don't add single letter deletes to ring
-"Default to let Ctrl->N and Ctrl->P cycle through the yankring
+" Clang include fixer
+"noremap <leader>cf :pyf /google/data/ro/projects/cymbal/tools/include-fixer/clang-include-fixer.py<cr>
+"noremap <C-I> :pyf /google/data/ro/projects/cymbal/tools/include-fixer/clang-include-fixer.py<cr>
 
-"CTags
-nmap <silent> <leader>gc :!ctags -R *<CR>
+" Fix deps for blaze and includes (slow)
+" Fix It All.
+"noremap <leader>fia :pyf /google/data/ro/projects/cymbal/tools/include-fixer/clang-include-fixer.py<cr>:BlazeDepsUpdate<cr>
 
 " Turn off swap files
 set noswapfile
@@ -65,9 +62,9 @@ map <F6> <ESC>:call CompileTheLatex()<CR><ESC>:echo "Compiled the latex!"<CR>
 set t_Co=256 "My terminal has 256 colors
 
 "Good color schemes
-"calmar256-dark, lucius, mustang, camo, herald, xoria256
+"calmar256-dark, lucius, mustang, camo, herald, xoria256, molokai
 set background=dark
-let DFLT_COLOR_SCHEME = "mustang"
+let DFLT_COLOR_SCHEME = "thezone"
 
 "Cycle color schemes with F11
 map <C-F11> <ESC>:call CycleColorScheme(1)<CR><ESC>:echo g:colors_name<CR>
@@ -88,11 +85,17 @@ command! AutoIndent call g:cbAutoIndent()
 map <F9> <ESC>:AutoIndent<CR>
 
 "Shift+F9 = kill extra whitespace function written by me
-command! KillExtraWhiteSpace call g:cbKillExtraWhitespace()
+command! KillExtraWhiteSpace call g:CbKillExtraWhitespace()
 map <S-F9> <ESC>:KillExtraWhiteSpace<CR>
 
 "Also map ,kew to kill extra whitespace
 nmap <silent> <leader>kew <ESC>:KillExtraWhiteSpace<CR>
+
+" Press F12 to clear previous searches.
+map <F12> <esc> :noh<return>
+
+" Markdown file support.
+autocmd BufNewFile,BufRead *.md setfiletype markdown
 
 " Window resizing mappings
 "Inspired by: http://vim.wikia.com/wiki/Fast_window_resizing_with_plus/minus_keys
@@ -107,7 +110,6 @@ map <C-F2> <ESC><C-w>1-
 map <C-F3> <ESC><C-w>1>
 map <C-F4> <ESC><C-w>1<
 
-
 "Cycle through active splits
 map <C-M-F1> <C-w>w
 
@@ -120,6 +122,8 @@ map <S-Right> <C-Right>
 
 " map <F7> to toggle NERDTree window
 map <silent><F7> :NERDTreeToggle<CR>
+" autochdir will open nerdtree in the directory of the active buffer.
+set autochdir
 
 "Toggle spell check on and off using F5
 let g:spellOn = 0
@@ -140,6 +144,9 @@ syntax enable
 " Syntax highlighting for GLSL shaders.
 autocmd BufNewFile,BufRead *.vp,*.fp,*.gp,*.vs,*.fs,*.gs,*.tcs,*.tes,*.cs,*.vert,*.frag,*.geom,*.tess,*.shd,*.gls,*.glsl set ft=glsl450
 
+".def should be highlighted like Python files.
+au BufNewFile,BufRead *.def set filetype=python
+
 "Better locating of C++ comments
 "got this on the internet somewhere...
 set comments=sl:/*,mb:\ *,elx:\ */
@@ -151,22 +158,38 @@ set showmode
 set ignorecase
 set smartcase
 
-"Include whitespace in word selections
+"Include whitespace in word selections.
 set aw
 
-"Show cursor position
+"Show cursor position.
 set ruler
 
-"Enable backspace in  insert mode
+"Enable backspace in insert mode.
 set bs=2
 
 "Dark BG by default
 set background=dark
 
-"Show line numbers
+"Show line numbers.
 set number
 
-"Show the title in the console title bar
+" Use relative line numbers. Toggle this with ,tns.
+let g:relative_num_on = 1
+function! NumberToggle()
+  if g:relative_num_on == 1
+    set norelativenumber
+    let g:relative_num_on = 0
+    echo "Relative number is off"
+  else
+    set relativenumber
+    let g:relative_num_on = 1
+    echo "Relative number is on"
+  endif
+endfunc
+set relativenumber
+nmap <silent> <leader>tns <ESC>:call NumberToggle()<ESC><CR>
+
+"Show the title in the console title bar.
 set title
 
 "Don't wrap lines
@@ -184,14 +207,13 @@ set cmdheight=2
 " Integration with make
 set makeprg=make
 
-
 "Indenting options for C/C++
 set autoindent
 set smartindent
 set t_Co=256
 
 "Set all tabs to 2 spaces
-"but NOT in makefile since in Makefile you need tabs
+"but NOT in makefiles since in a Makefile you need tabs
 set tabstop=2
 set shiftwidth=2
 set shiftround
@@ -204,7 +226,6 @@ autocmd FileType make setlocal noexpandtab
 
 let s:scheme = 0 "Current color scheme
 function! CycleColorScheme(dir)
-
     "First clear the color scheme stuff
     hi clear
 
@@ -228,6 +249,7 @@ function! CycleColorScheme(dir)
     "Apply new scheme
     let tempStr = matchstr(cSchemeList[s:scheme],"[^/]*[.]vim$")
     :execute "colorscheme " strpart(tempStr, 0, len(tempStr)-4)
+    echo "Temp Str = " tempStr
 endfunction
 
 "Set a color scheme by name
@@ -235,7 +257,6 @@ function! SetColorScheme(name)
     :execute "colorscheme " a:name
 endfunction
 call SetColorScheme(DFLT_COLOR_SCHEME)
-
 
 function! GenRand(maxVal)
     return localtime() % a:maxVal
@@ -268,7 +289,6 @@ function! PrintColorSchemeList()
     echo "Color Schemes: " cSchemeList
 endfunction
 
-
 "Highlight groups
 
 " Highlight text like TODO, FIXME, WARNING, and ERROR
@@ -277,21 +297,13 @@ call matchadd("SpecialText", "TODO.*")
 call matchadd("SpecialText", "FIXME.*")
 call matchadd("SpecialText", "WARNING.*")
 call matchadd("SpecialText", "ERROR.*")
-
-
-" Identify lines that go over the 80 char limit.
-highlight TooLong ctermfg=Red guifg=Red ctermbg=Black guibg=Black
-call matchadd("TooLong", ".\{-80}.*")
-" This matches a line longer than 80 chars
-"2match TooLong /.\{-80}.*/
-
-" This matches from chars [80-1000]
-2match TooLong /\%<1000v.\%>80v/
-
 highlight ExtraSpace ctermfg=Red guifg=Red ctermbg=Red guibg=Red
-3match ExtraSpace /\s\+$/
 
-"autocmd BufEnter * highlight TooLong ctermfg=Red guifg=Red ctermbg=Black guibg=Black
-"autocmd BufEnter * call matchadd("TooLong", ".\{-80}.*")
-
-
+" Source google-internal VIM functions if we are on a machine that has them.
+set nocompatible
+let google_vimrc = "/usr/share/vim/google/google.vim"
+if filereadable(google_vimrc)
+  execute "source" google_vimrc
+endif 
+filetype plugin indent on
+syntax on

@@ -4,7 +4,7 @@
 "Operates on all lines in an entire buffer
 
 "TODO: Make so this can work on a visual selection or a range
-function! g:cbKillExtraWhitespace()
+function! g:CbKillExtraWhitespace()
 
     "Get a list of all lines in the buffer
     let l:listOfBufLines = getline(1,"$")
