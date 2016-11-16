@@ -17,7 +17,7 @@ map <C-K> :pyf ~/tools/clang-format.py<CR>
 imap <C-K> <ESC>:pyf ~/tools/clang-format.py<CR>
 nmap <silent> <leader>fc :pyf ~/tools/clang-format.py<CR>
 
-" Clang include fixer
+" Clang include fixer.
 "noremap <leader>cf :pyf /google/data/ro/projects/cymbal/tools/include-fixer/clang-include-fixer.py<cr>
 "noremap <C-I> :pyf /google/data/ro/projects/cymbal/tools/include-fixer/clang-include-fixer.py<cr>
 
@@ -31,7 +31,7 @@ set noswapfile
 set cursorline
 set cursorcolumn
 
-"Wildmenu is cool
+"Wildmenu is cool.
 set wildmode=longest,full
 set wildmenu
 
@@ -59,37 +59,32 @@ map <F6> <ESC>:call CompileTheLatex()<CR><ESC>:echo "Compiled the latex!"<CR>
 set t_Co=256 "My terminal has 256 colors
 
 "Good color schemes
-"calmar256-dark, lucius, mustang, camo, herald, xoria256, molokai
 set background=dark
 let DFLT_COLOR_SCHEME = "thezone"
 
-"Cycle color schemes with F11
+"Shift + F11 = Cycle color schemes.
 map <C-F11> <ESC>:call CycleColorScheme(1)<CR><ESC>:echo g:colors_name<CR>
 map <S-F11> <ESC>:call CycleColorScheme(0)<CR><ESC>:echo g:colors_name<CR>
 map <A-F11> <ESC>:call PrintColorSchemeList()<CR>
 map <leader>rcs :call RandomColorScheme(1)<CR><ESC>:echo g:colors_name<CR>
 
-"F4 = Toggle external paste mode
+"F4 = Toggle external paste mode.
 noremap <F4> :set invpaste paste?<CR>
 set pastetoggle=<F4>
 
-"F5 = turn on and off spell check
+"F5 = turn on and off spell check.
 map <F5> <ESC>:call ToggleSpellCheck()<CR>
 command! ToggleSpellCheck call ToggleSpellCheck()
 
-"F9 = call custom autoindent function
-command! AutoIndent call g:cbAutoIndent()
-map <F9> <ESC>:AutoIndent<CR>
-
-"Shift+F9 = kill extra whitespace function written by me
+"Shift+F9 = kill extra whitespace function.
 command! KillExtraWhiteSpace call g:CbKillExtraWhitespace()
 map <S-F9> <ESC>:KillExtraWhiteSpace<CR>
 
-"Also map ,kew to kill extra whitespace
-nmap <silent> <leader>kew <ESC>:KillExtraWhiteSpace<CR>
-
-" Press F12 to clear previous searches.
+" F12 = clear previous searches.
 map <F12> <esc> :noh<return>
+
+",kew = kill extra whitespace
+nmap <silent> <leader>kew <ESC>:KillExtraWhiteSpace<CR>
 
 " Markdown file support.
 autocmd BufNewFile,BufRead *.md setfiletype markdown
@@ -218,7 +213,7 @@ set expandtab
 autocmd FileType make setlocal noexpandtab
 
 " Set VIM statusline to be more informative.
-set statusline=%y\ %f:%l\ %m
+set statusline=%y\ %f:%04l\ %m
 
 
 "------------------------------------------------------------------------------
@@ -305,6 +300,6 @@ set nocompatible
 let google_vimrc = "/usr/share/vim/google/google.vim"
 if filereadable(google_vimrc)
   execute "source" google_vimrc
-endif 
+endif
 filetype plugin indent on
 syntax on
