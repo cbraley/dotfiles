@@ -1,9 +1,6 @@
 "Vim please; not vi...
 set nocompatible
 
-" I use pathogen to install some plugins.
-execute pathogen#infect()
-
 "Use ',' as the "leader" key; not '\'
 let mapleader = ","
 
