@@ -217,6 +217,10 @@ set shiftround
 set expandtab
 autocmd FileType make setlocal noexpandtab
 
+" Set VIM statusline to be more informative.
+set statusline=%y\ %f:%l\ %m
+
+
 "------------------------------------------------------------------------------
 "Color scheme related stuff
 "------------------------------------------------------------------------------
