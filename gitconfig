@@ -3,7 +3,5 @@
 [core]
 	editor = vim
 [diff]
-  tool = meld
-	external = /usr/local/google/home/cbraley/tools/diff.py
 [http]
 	cookiefile = /usr/local/google/home/cbraley/.gitcookies
