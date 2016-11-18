@@ -55,7 +55,7 @@ call Highlight("Function"    , 117,  -1,  -1)
 call Highlight("Statement"   , 149,  -1,  "BOLD")
 call Highlight("Conditional" , 110,  -1,  "BOLD")
 call Highlight("Repeat"      , 110,  -1,  "BOLD")
-call Highlight("Todo"    , 88,  88,  "BOLD")
+call Highlight("Todo"        ,  88,  88,  "BOLD")
 
 " Cursor-Surrounding. --------------------------------------------------------
 call Highlight("CursorLine"  ,  -1,  238,  -1)
@@ -72,19 +72,24 @@ call Highlight("Vertsplit"   , 148, 235,  -1)
 call Highlight("MatchParen"  , 214, 148,  "BOLD")
 
 " Searches and selections. ---------------------------------------------------
-
 call Highlight("Visual"      , 254,  27,  -1)
 call Highlight("VisualNOS"   , 254,  27,  -1)
-
-call Highlight("Search"       , 227,  94,  -1)
+call Highlight("Search"      , 227,  94,  -1)
 
 
 " Status line. ----------------------------------------------------------------
 " Active status line.
-call Highlight("StatusLine"     , 16, 149,  -1)
+call Highlight("StatusLine"   , 16, 149,  -1)
 " Inative status line.
-call Highlight("StatusLineNC"   , 149,  16,  -1)
+call Highlight("StatusLineNC" , 149,  16,  -1)
+" Where it says "insert mode" or other mode status.
+call Highlight("ModeMsg", 016,  233, "BOLD")
 
+" Ctrl-N completion menu.. ---------------------------------------------------
+call Highlight("PMenu",      149, 235, -1)
+call Highlight("PMenuSel",   235, 149, -1)
+call Highlight("PMenuSbar",  149, 235, -1)
+call Highlight("PMenuThumb", 149, 235, -1)
 
 " Tabs. -----------------------------------------------------------------------
 " Each tab.
@@ -92,7 +97,7 @@ call Highlight("TabLine",     149, 16, -1)
 " The selected tab.
 call Highlight("TabLineSel",  16, 149, -1)
 " The rest of the tab line (after the tabs).
-call Highlight("TabLineFill", -1, 16, -1)
+call Highlight("TabLineFill", 237,  237, -1)
 
 
 " Miscellaneous ---------------------------------------------------------------
@@ -101,3 +106,5 @@ call Link("EndOfBuffer", "Normal")
 call Highlight("Title", 67,  -1,  -1)
 call Link("htmlTagN", "htmlTagName")
 call Highlight("PreProc", 67, -1, -1)
+
+
