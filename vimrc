@@ -31,8 +31,8 @@ set noswapfile
 set cursorline
 set cursorcolumn
 
-"Wildmenu is cool.
-set wildmode=longest,full
+"Wildmenu controls filename autocompletion.
+set wildmode=longest:list,full
 set wildmenu
 
 " Enable click support.
