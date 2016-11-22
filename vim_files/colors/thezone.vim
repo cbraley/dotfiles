@@ -79,11 +79,11 @@ call Highlight("Search"      , 227,  94,  -1)
 
 " Status line. ----------------------------------------------------------------
 " Active status line.
-call Highlight("StatusLine"   , 16, 149,  -1)
+call Highlight("StatusLine"   ,  16,  149,     -1)
 " Inative status line.
-call Highlight("StatusLineNC" , 149,  16,  -1)
+call Highlight("StatusLineNC" , 149,   16,     -1)
 " Where it says "insert mode" or other mode status.
-call Highlight("ModeMsg", 016,  233, "BOLD")
+call Highlight("ModeMsg",        16,  233, "BOLD")
 
 " Ctrl-N completion menu.. ---------------------------------------------------
 call Highlight("PMenu",      149, 235, -1)

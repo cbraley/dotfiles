@@ -213,7 +213,80 @@ set expandtab
 autocmd FileType make setlocal noexpandtab
 
 " Set VIM statusline to be more informative.
-set statusline=%y\ %f:%04l\ %m
+" "[<file type>] column:<column_num> filename:<line_number>
+set statusline=%y\ %f:%04l\ %=col=%03c,line=%03l
+
+" USe a custom function to render each tab text.
+" Modified from:
+" http://stackoverflow.com/questions/33710069/how-to-write-tabline-function-in-vim
+" This shows all splits in the tab name.
+set tabline=%!MyTabLine()  " Custom tab pages function.
+function! MyTabLine()
+  let s = ''
+  " Loop through each tab page.
+  for i in range(tabpagenr('$'))
+    if i + 1 == tabpagenr()
+      let s .= '%#TabLineSel#'
+    else
+      let s .= '%#TabLine#'
+    endif
+    if i + 1 == tabpagenr()
+      let s .= '%#TabLineSel#' " WildMenu
+    else
+      let s .= '%#Title#'
+    endif
+    " Set the tab page number (for mouse clicks).
+    let s .= '%' . (i + 1) . 'T '
+    " Set page number string.
+    let s .= i + 1 . ''
+    " Get buffer names and statuses.
+    let n = ''  " temp str for buf names
+    let m = 0   " &modified counter
+
+    " Loop through each buffer in a tab.
+    let buflist = tabpagebuflist(i + 1)
+    for b in buflist
+      if getbufvar(b, "&buftype") == 'help'
+        " let n .= '[H]' . fnamemodify(bufname(b), ':t:s/.txt$//')
+      elseif getbufvar(b, "&buftype") == 'quickfix'
+        " let n .= '[Q]'
+      elseif getbufvar(b, "&modifiable")
+        let n .= fnamemodify(bufname(b), ':t') . ', ' " pathshorten(bufname(b))
+      endif
+      if getbufvar(b, "&modified")
+        let m += 1
+      endif
+    endfor  " End loop over buffers.
+
+    "let n .= fnamemodify(bufname(buflist[tabpagewinnr(i + 1) - 1]), ':t')
+    let n = substitute(n, ', $', '', '')
+    let n = '[' . n . ']'
+    " Add modified label.
+    if m > 0
+      let s .= '+'
+      "let s .= '[' . m . '+]'
+    endif
+    if i + 1 == tabpagenr()
+      let s .= ' %#TabLineSel#'
+    else
+      let s .= ' %#TabLine#'
+    endif
+    " Add buffer names.
+    if n == ''
+      let s.= '[New]'
+    else
+      let s .= n
+    endif
+    " Switch to no underlining and add final space.
+    let s .= ' '
+  endfor
+  let s .= '%#TabLineFill#%T'
+  " right-aligned close button
+  "if tabpagenr('$') > 1
+  "  let s .= '%=%#TabLineFill#%999Xclose'
+  "endif
+  return s
+endfunction
 
 
 "------------------------------------------------------------------------------
