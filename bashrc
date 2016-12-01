@@ -53,6 +53,9 @@ if [[ ":$PATH:" != *":$H~/tools:"* ]]; then
   export PATH="~/tools:$PATH"
 fi
 
+# Let's use vim for tools that respond to $EDITOR.
+export EDITOR='vim'
+
 # Bash history configuration.
 
 # Don't put duplicate lines or lines starting with space in the history

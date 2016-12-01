@@ -31,6 +31,8 @@ set noswapfile
 set cursorline
 set cursorcolumn
 
+let &colorcolumn=join(range(81,999),",")
+
 "Wildmenu controls filename autocompletion.
 set wildmode=longest:list,full
 set wildmenu
