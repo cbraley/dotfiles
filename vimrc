@@ -116,7 +116,7 @@ map <S-Left> <C-Left>
 map <S-Right> <C-Right>
 
 " map <F7> to toggle NERDTree window
-map <silent><F7> :NERDTreeToggle<CR>
+map <silent><F7> <plug>NERDTreeTabsToggle<CR>
 " autochdir will open nerdtree in the directory of the active buffer.
 set autochdir
 
