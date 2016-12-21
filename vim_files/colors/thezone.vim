@@ -80,7 +80,7 @@ call Highlight("Search",        227,   94,     -1)
 " Status line. ----------------------------------------------------------------
 " Active status line.
 call Highlight("StatusLine",     16,  149,     -1)
-" Inative status line.
+" Inactive status line.
 call Highlight("StatusLineNC",  149,   16,     -1)
 " Where it says "insert mode" or other mode status.
 call Highlight("ModeMsg",         9,   16, "BOLD")
@@ -108,6 +108,6 @@ call Link("htmlTagN", "htmlTagName")
 call Highlight("PreProc",        67,   -1,     -1)
 
 " Darken the background after column 80.
-call Highlight("ColorColumn",    -1,  233,     -1)
+call Highlight("ColorColumn",    -1,   52,     -1)
 
 
