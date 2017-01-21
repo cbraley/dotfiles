@@ -376,6 +376,8 @@ set nocompatible
 let google_vimrc = "/usr/share/vim/google/google.vim"
 if filereadable(google_vimrc)
   execute "source" google_vimrc
+  Glug youcompleteme-google
+  let g:ycm_complete_in_strings = 0
 endif
 filetype plugin indent on
 syntax on

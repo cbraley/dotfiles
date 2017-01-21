@@ -111,3 +111,9 @@ call Highlight("PreProc",        67,   -1,     -1)
 call Highlight("ColorColumn",    -1,   52,     -1)
 
 
+" YouCompleteMe ----------------------------------------------------------------
+call Highlight("YcmWarningSign",  16,   202,   -1)
+call Highlight("YcmWarningLine",  16,   130,   -1)
+call Highlight("YcmErrorSign",    16,   202,   -1)
+call Highlight("YcmErrorLine",    16,   160,   -1)
+
