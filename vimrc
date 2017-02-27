@@ -4,6 +4,9 @@ set nocompatible
 "Use ',' as the "leader" key; not '\'
 let mapleader = ","
 
+" ESC is too far away! Use a quick tap of jj to leave insert mode.
+ino jj <ESC>
+
 "Helpers for editing and sourcing ~/.vimrc
 " ,EV = [E]dit ~/.[v]imrc
 nmap <silent> <leader>ev :tabnew $MYVIMRC<CR>
@@ -11,7 +14,7 @@ nmap <silent> <leader>ev :tabnew $MYVIMRC<CR>
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
 " Clang format mappings
-" Use ctrl-K or use LEADER f c to Format Code (FC)
+" Use ctrl-K or ,fc to [F]ormat [C]ode
 map <C-K> :pyf ~/tools/clang-format.py<CR>
 imap <C-K> <ESC>:pyf ~/tools/clang-format.py<CR>
 " ,FC = [F]ormat [C]code.
@@ -213,6 +216,14 @@ nnoremap <silent> <Leader>/ :nohlsearch<CR>
 " view. HT = [H]ighlight [W]word.
 :nnoremap <Leader>hw :let @/="<C-r><C-w>"<CR>
 
+" Add the ability to copy and paste text into the OS's copy and paste buffer.
+"  http://stackoverflow.com/questions/3961859/how-to-copy-to-clipboard-in-vim
+"  TODO(cbraley): Make this work on MacOS too.
+"
+" ctrl-C in visual select mode yanks text to the clipboard.
+vnoremap <C-c> :w !xsel -i -b <CR><CR>
+" ,pfc = [P]aste [F]rom [C]lipboard.
+noremap <leader>pfc :r !xsel -o -b <CR>
 
 "2 line high command section.
 set cmdheight=2
