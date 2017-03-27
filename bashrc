@@ -121,10 +121,19 @@ function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
+function last_exit_code {
+  tmp_code=$?
+  if [ $tmp_code -eq 0 ]; then
+    echo ''
+  else
+    echo "$tmp_code  "
+  fi
+}
+
 # Notes:
 #   $STY is the current screen session (or the empty string).
 PROMPT_DIRTRIM=3
-PS1="$IBlue$STY$RS$Green$BgDarkGray\D{%m/%d %R}$RS$IWhite|$RS$Blue\j$IWhite|$RS$IGreen\w$RS$IWhite($RS$Blue\$(parse_git_branch)$RS$IWhite)$RS$IRed\$$RS"
+PS1="$IBlue$STY$RS$IRed\$(last_exit_code)$RS$Green$BgDarkGray\D{%m/%d %R}$RS$IWhite|$RS$Blue\j$IWhite|$RS$IGreen\w$RS$IWhite($RS$Blue\$(parse_git_branch)$RS$IWhite)$RS$IRed\$$RS"
 PS2="$Green$BgDarkGray...>$RS$IRed\$$RS "
 
 # -----------------------------------------------------------------------------
