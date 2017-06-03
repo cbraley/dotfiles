@@ -176,6 +176,11 @@ slowcommand(){
  running command \"$(echo $@)\" took $(($(date +%s) - start)) seconds to finish"
 }
 
+# bazel is installed to $HOME/bin
+export PATH="$PATH:$HOME/bin"
+# source bazel autocompletions.
+source $HOME/.bazel/bin/bazel-complete.bash
+
 # If we are running this on a google machine, source some google-only magic
 # bash functions.
 if [ -f ~/.google_internal_bashrc ]; then
