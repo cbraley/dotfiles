@@ -1,4 +1,4 @@
-# If not running interactively, don't do anything
+# If not running interactively, don't do anything.
 case $- in
     *i*) ;;
       *) return;;
@@ -52,6 +52,9 @@ fi
 if [[ ":$PATH:" != *":$H~/tools:"* ]]; then
   export PATH="~/tools:$PATH"
 fi
+
+# Let's use vim for tools that respond to $EDITOR.
+export EDITOR='vim'
 
 # Bash history configuration.
 
@@ -118,8 +121,19 @@ function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
+function last_exit_code {
+  tmp_code=$?
+  if [ $tmp_code -eq 0 ]; then
+    echo ''
+  else
+    echo "$tmp_code  "
+  fi
+}
+
+# Notes:
+#   $STY is the current screen session (or the empty string).
 PROMPT_DIRTRIM=3
-PS1="$Green$BgDarkGray\D{%m/%d %R}$RS$IWhite|$RS$Blue\j$IWhite|$RS$IGreen\w$RS$IWhite($RS$Blue\$(parse_git_branch)$RS$IWhite)$RS$IRed\$$RS"
+PS1="$IBlue$STY$RS$IRed\$(last_exit_code)$RS$Green$BgDarkGray\D{%m/%d %R}$RS$IWhite|$RS$Blue\j$IWhite|$RS$IGreen\w$RS$IWhite($RS$Blue\$(parse_git_branch)$RS$IWhite)$RS$IRed\$$RS"
 PS2="$Green$BgDarkGray...>$RS$IRed\$$RS "
 
 # -----------------------------------------------------------------------------
@@ -143,15 +157,18 @@ case "$TERM" in
     xterm-color) color_prompt=yes;;
 esac
 
+# We want screen to be able ot handle 256 colors.
+TERM=xterm-256color
+
 force_color_prompt=yes
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+        # a case would tend to support setf rather than setaf.)
+        color_prompt=yes
     else
-	color_prompt=
+        color_prompt=
     fi
 fi
 

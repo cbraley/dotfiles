@@ -24,6 +24,9 @@ ln -s -i ${DIR}/bashrc ~/.bashrc
 # Symlink the system's ~/.gitconfig to gitconfig here.
 ln -s -i ${DIR}/gitconfig ~/.gitconfig
 
+# Symlink the system's ~/.screenrc to screenrc here.
+ln -s -i ${DIR}/screenrc ~/.screenrc
+
 # Setup tools.
 mkdir -p ~/tools
 ln -s -i ${DIR}/clang-format.py ~/tools/clang-format.py

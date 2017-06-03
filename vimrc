@@ -4,17 +4,20 @@ set nocompatible
 "Use ',' as the "leader" key; not '\'
 let mapleader = ","
 
+" ESC is too far away! Use a quick tap of jj to leave insert mode.
+ino jj <ESC>
+
 "Helpers for editing and sourcing ~/.vimrc
+" ,EV = [E]dit ~/.[v]imrc
 nmap <silent> <leader>ev :tabnew $MYVIMRC<CR>
+" ,SV = [S]ource ~/.[v]imrc
 nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
-"Helpers for looking up documentation in Dash.
-nmap <silent> <leader>d <Plug>DashSearch
-
 " Clang format mappings
-" Use ctrl-K or use LEADER f c to Format Code (FC)
+" Use ctrl-K or ,fc to [F]ormat [C]ode
 map <C-K> :pyf ~/tools/clang-format.py<CR>
 imap <C-K> <ESC>:pyf ~/tools/clang-format.py<CR>
+" ,FC = [F]ormat [C]code.
 nmap <silent> <leader>fc :pyf ~/tools/clang-format.py<CR>
 
 " Clang include fixer.
@@ -31,6 +34,9 @@ set noswapfile
 set cursorline
 set cursorcolumn
 
+" Highlight column 81.
+let &colorcolumn=join([81],",")
+
 "Wildmenu controls filename autocompletion.
 set wildmode=longest:list,full
 set wildmenu
@@ -43,15 +49,15 @@ set nowrap
 
 "F6 to compile latex documents.
 function! CompileTheLatex()
-    "Get input and output names
-    "Assume only 1 .tex file, no bibliography, and an output file with the
-    "same name as the tex file
-    let inTex = bufname("%")
-    let outPdf = inTex[:len(inTex)-4] . "pdf"
-    echo "Compiling " inTex " to produce " outPdf
+  "Get input and output names
+  "Assume only 1 .tex file, no bibliography, and an output file with the
+  "same name as the tex file
+  let inTex = bufname("%")
+  let outPdf = inTex[:len(inTex)-4] . "pdf"
+  echo "Compiling " inTex " to produce " outPdf
 
-    "Execute as an ex mode command
-    :execute "!latex " inTex "&& pdflatex " inTex " && evince -s " outPdf
+  "Execute as an ex mode command
+  :execute "!latex " inTex "&& pdflatex " inTex " && evince -s " outPdf
 endfunction
 map <F6> <ESC>:call CompileTheLatex()<CR><ESC>:echo "Compiled the latex!"<CR>
 
@@ -83,7 +89,7 @@ map <S-F9> <ESC>:KillExtraWhiteSpace<CR>
 " F12 = clear previous searches.
 map <F12> <esc> :noh<return>
 
-",kew = kill extra whitespace
+",kew = [K]ill [E]xtra [W]hitespace
 nmap <silent> <leader>kew <ESC>:KillExtraWhiteSpace<CR>
 
 " Markdown file support.
@@ -113,22 +119,22 @@ map <S-Left> <C-Left>
 map <S-Right> <C-Right>
 
 " map <F7> to toggle NERDTree window
-map <silent><F7> :NERDTreeToggle<CR>
+map <silent><F7> <plug>NERDTreeTabsToggle<CR>
 " autochdir will open nerdtree in the directory of the active buffer.
 set autochdir
 
 "Toggle spell check on and off using F5
 let g:spellOn = 0
 function! ToggleSpellCheck()
-    if g:spellOn == 0
-        setlocal spell! spelllang=en_us
-        echo "Spell check on, use z to suggest words."
-        let g:spellOn = 1
-    else
-        setlocal nospell
-        echo "Spell check off."
-        let g:spellOn = 0
-    endif
+  if g:spellOn == 0
+    setlocal spell! spelllang=en_us
+    echo "Spell check on, use z to suggest words."
+    let g:spellOn = 1
+  else
+    setlocal nospell
+    echo "Spell check off."
+    let g:spellOn = 0
+  endif
 endfunction
 
 syntax enable
@@ -166,6 +172,7 @@ set background=dark
 set number
 
 " Use relative line numbers. Toggle this with ,tns.
+" TNS = [T]oggle line [N]umber [S]ettings.
 let g:relative_num_on = 1
 function! NumberToggle()
   if g:relative_num_on == 1
@@ -181,6 +188,15 @@ endfunc
 set relativenumber
 nmap <silent> <leader>tns <ESC>:call NumberToggle()<ESC><CR>
 
+" Misc helper key mappings.
+" Leader + s + r will being up a search and replace dialog using the current
+" word under the cursor.
+" SR = [S]earch and [R]eplace.
+:nnoremap <Leader>sr :%s/\<<C-r><C-w>\>/
+
+"Disable Ex mode.
+nnoremap Q <nop>
+
 "Show the title in the console title bar.
 set title
 
@@ -193,10 +209,26 @@ set ls=2
 "Highlight searches
 set hlsearch
 
-"2 line high command section
+" Use ,/ to un-highlight the search text.
+nnoremap <silent> <Leader>/ :nohlsearch<CR>
+
+" The mapping ,ht highlights the word under the cursor but does *not* move the
+" view. HT = [H]ighlight [W]word.
+:nnoremap <Leader>hw :let @/="<C-r><C-w>"<CR>
+
+" Add the ability to copy and paste text into the OS's copy and paste buffer.
+"  http://stackoverflow.com/questions/3961859/how-to-copy-to-clipboard-in-vim
+"  TODO(cbraley): Make this work on MacOS too.
+"
+" ctrl-C in visual select mode yanks text to the clipboard.
+vnoremap <C-c> :w !xsel -i -b <CR><CR>
+" ,pfc = [P]aste [F]rom [C]lipboard.
+noremap <leader>pfc :r !xsel -o -b <CR>
+
+"2 line high command section.
 set cmdheight=2
 
-" Integration with make
+" Integration with make.
 set makeprg=make
 
 "Indenting options for C/C++
@@ -205,7 +237,7 @@ set smartindent
 set t_Co=256
 
 "Set all tabs to 2 spaces
-"but NOT in makefiles since in a Makefile you need tabs
+"but NOT in makefiles since in a Makefile you must use tabs.
 set tabstop=2
 set shiftwidth=2
 set shiftround
@@ -216,7 +248,7 @@ autocmd FileType make setlocal noexpandtab
 " "[<file type>] column:<column_num> filename:<line_number>
 set statusline=%y\ %f:%04l\ %=col=%03c,line=%03l
 
-" USe a custom function to render each tab text.
+" Use a custom function to render each tab text.
 " Modified from:
 " http://stackoverflow.com/questions/33710069/how-to-write-tabline-function-in-vim
 " This shows all splits in the tab name.
@@ -295,67 +327,67 @@ endfunction
 
 let s:scheme = 0 "Current color scheme
 function! CycleColorScheme(dir)
-    "First clear the color scheme stuff
-    hi clear
+  "First clear the color scheme stuff
+  hi clear
 
-    let colFiles = system("ls ~/.vim/colors/*[.]vim")
-    let cSchemeList = split(colFiles) "List of color schemes
+  let colFiles = system("ls ~/.vim/colors/*[.]vim")
+  let cSchemeList = split(colFiles) "List of color schemes
 
-    "Update color scheme index
-    if a:dir > 0
-        let s:scheme = s:scheme + 1
-    else
-        let s:scheme = s:scheme - 1
-    endif
+  "Update color scheme index
+  if a:dir > 0
+    let s:scheme = s:scheme + 1
+  else
+    let s:scheme = s:scheme - 1
+  endif
 
-    "Clamp color scheme index
-    if s:scheme >= len(cSchemeList)
-        let s:scheme = 0
-    elseif s:scheme < 0
-        let s:scheme = len(cSchemeList) - 1
-    endif
+  "Clamp color scheme index
+  if s:scheme >= len(cSchemeList)
+    let s:scheme = 0
+  elseif s:scheme < 0
+    let s:scheme = len(cSchemeList) - 1
+  endif
 
-    "Apply new scheme
-    let tempStr = matchstr(cSchemeList[s:scheme],"[^/]*[.]vim$")
-    :execute "colorscheme " strpart(tempStr, 0, len(tempStr)-4)
-    echo "Temp Str = " tempStr
+  "Apply new scheme
+  let tempStr = matchstr(cSchemeList[s:scheme],"[^/]*[.]vim$")
+  :execute "colorscheme " strpart(tempStr, 0, len(tempStr)-4)
+  echo "Temp Str = " tempStr
 endfunction
 
 "Set a color scheme by name
 function! SetColorScheme(name)
-    :execute "colorscheme " a:name
+  :execute "colorscheme " a:name
 endfunction
 call SetColorScheme(DFLT_COLOR_SCHEME)
 
 function! GenRand(maxVal)
-    return localtime() % a:maxVal
+  return localtime() % a:maxVal
 endfunction
 
 "Get a random color scheme
 function! RandomColorScheme(dir)
-    let colFiles = system("ls ~/.vim/colors/*[.]vim")
-    let cSchemeList = split(colFiles) "List of color schemes
+  let colFiles = system("ls ~/.vim/colors/*[.]vim")
+  let cSchemeList = split(colFiles) "List of color schemes
 
-    "Update color scheme index
-    let s:scheme = s:scheme + GenRand(len(cSchemeList))
+  "Update color scheme index
+  let s:scheme = s:scheme + GenRand(len(cSchemeList))
 
-    "Clamp color scheme index
-    if s:scheme >= len(cSchemeList)
-        let s:scheme = 0
-    elseif s:scheme < 0
-        let s:scheme = len(cSchemeList) - 1
-    endif
+  "Clamp color scheme index
+  if s:scheme >= len(cSchemeList)
+    let s:scheme = 0
+  elseif s:scheme < 0
+    let s:scheme = len(cSchemeList) - 1
+  endif
 
-    "Apply new scheme
-    let tempStr = matchstr(cSchemeList[s:scheme],"[^/]*[.]vim$")
-    execute "colorscheme " strpart(tempStr, 0, len(tempStr)-4)
+  "Apply new scheme
+  let tempStr = matchstr(cSchemeList[s:scheme],"[^/]*[.]vim$")
+  execute "colorscheme " strpart(tempStr, 0, len(tempStr)-4)
 endfunction
 
 function! PrintColorSchemeList()
-    let colFiles = system("ls ~/.vim/colors/*[.]vim")
-    let cSchemeList = split(colFiles) "List of color schemes
-    call map(cSchemeList, 'matchstr(v:val,"[^/]*[.]vim$")' )
-    echo "Color Schemes: " cSchemeList
+  let colFiles = system("ls ~/.vim/colors/*[.]vim")
+  let cSchemeList = split(colFiles) "List of color schemes
+  call map(cSchemeList, 'matchstr(v:val,"[^/]*[.]vim$")' )
+  echo "Color Schemes: " cSchemeList
 endfunction
 
 "Highlight groups
@@ -373,6 +405,19 @@ set nocompatible
 let google_vimrc = "/usr/share/vim/google/google.vim"
 if filereadable(google_vimrc)
   execute "source" google_vimrc
+  Glug youcompleteme-google
+  let g:ycm_complete_in_strings = 0
+
+  " In vim versions >= 8 we can leave the "gutter" column on. In earlier
+  " versions of vim YCM caused the "gutter" to flicker distractingly whenever
+  " a compiler error was introduced.
+  if v:version >= 8
+    set signcolumn=yes
+  elseif
+    " Turn of YCM diagnostics in the gutter in older versions of Vim.
+    let g:ycm_enable_diagnostic_signs=0
+  endif
+
 endif
 filetype plugin indent on
 syntax on
