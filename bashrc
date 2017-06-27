@@ -193,6 +193,12 @@ slowcommand(){
  running command \"$(echo $@)\" took $(($(date +%s) - start)) seconds to finish"
 }
 
+# Append to history, don't overwrite it.
+shopt -s histappend
+
+# Don't store duplicate commands in bash history.
+export HISTCONTROL=ignoredups
+
 # If we are running this on a google machine, source some google-only magic
 # bash functions.
 if [ -f ~/.google_internal_bashrc ]; then
