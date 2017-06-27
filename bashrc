@@ -196,7 +196,15 @@ slowcommand(){
 # bazel is installed to $HOME/bin
 export PATH="$PATH:$HOME/bin"
 # source bazel autocompletions.
-source $HOME/.bazel/bin/bazel-complete.bash
+if [ -f $HOME/.bazel/bin/bazel-complete.bash ]; then
+  source $HOME/.bazel/bin/bazel-complete.bash
+fi
+
+# Append to history, don't overwrite it.
+shopt -s histappend
+
+# Don't store duplicate commands in bash history.
+export HISTCONTROL=ignoredups
 
 # If we are running this on a google machine, source some google-only magic
 # bash functions.
