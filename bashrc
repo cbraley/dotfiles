@@ -29,7 +29,7 @@ if [[ "$unamestr" == 'Darwin' ]]; then
 
   # OS X defaults to BSD sed.  We need gnu sed for some of my bash
   # completion scrips and other things to work.
-  alias sed='gsed'
+  #alias sed='gsed'
 elif [[ "$unamestr" == 'Linux' ]]; then
   # On Linux, use the nautilus file browser I like.
   alias explore='nautilus -n `pwd` 2> /dev/null'
