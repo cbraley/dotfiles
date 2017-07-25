@@ -193,6 +193,13 @@ slowcommand(){
  running command \"$(echo $@)\" took $(($(date +%s) - start)) seconds to finish"
 }
 
+# bazel is installed to $HOME/bin
+export PATH="$PATH:$HOME/bin"
+# source bazel autocompletions.
+if [ -f $HOME/.bazel/bin/bazel-complete.bash ]; then
+  source $HOME/.bazel/bin/bazel-complete.bash
+fi
+
 # Append to history, don't overwrite it.
 shopt -s histappend
 
