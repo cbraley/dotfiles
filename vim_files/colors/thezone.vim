@@ -110,10 +110,14 @@ call Highlight("PreProc",        67,   -1,     -1)
 " Darken the background after column 80.
 call Highlight("ColorColumn",    -1,   52,     -1)
 
+" Error messages.
+call Highlight("ErrorMsg",          -1,   166, -1)
+call Highlight("Error",             -1,   166, -1)
 
 " YouCompleteMe ----------------------------------------------------------------
-call Highlight("YcmWarningSign",  16,   202,   -1)
-call Highlight("YcmWarningLine",  16,   130,   -1)
-call Highlight("YcmErrorSign",    16,   202,   -1)
-call Highlight("YcmErrorLine",    16,   160,   -1)
-
+call Highlight("YcmWarningSign",    -1,   202, -1)
+call Highlight("YcmWarningLine",    -1,   130, -1)
+call Highlight("YcmErrorSign",      -1,   166, -1)
+call Highlight("YcmErrorLine",      -1,   166, -1)
+call Highlight("YcmErrorSection",   -1,   166, -1)
+call Highlight("YcmWarningSection", -1,   166, -1)

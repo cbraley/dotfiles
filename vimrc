@@ -185,14 +185,13 @@ function! NumberToggle()
     echo "Relative number is on"
   endif
 endfunc
-set relativenumber
 nmap <silent> <leader>tns <ESC>:call NumberToggle()<ESC><CR>
 
 " Misc helper key mappings.
 " Leader + s + r will being up a search and replace dialog using the current
 " word under the cursor.
 " SR = [S]earch and [R]eplace.
-:nnoremap <Leader>sr :%s/\<<C-r><C-w>\>/
+:nnoremap <Leader>sr :%s/\<<C-r><C-w>\>/<C-r><C-w>/gci
 
 "Disable Ex mode.
 nnoremap Q <nop>
