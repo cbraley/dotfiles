@@ -22,11 +22,23 @@ import json
 import subprocess
 import sys
 import vim
+import os
 
-# Change this to the full path if clang-format is not on the path.
-#binary = 'clang-format-3.4'
-#binary = 'clang-format'  # Use the default on goobuntu.
-binary='/opt/local/libexec/llvm-3.9/bin/clang-format'
+
+def is_exe(fpath):
+  return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+
+def GetClangFormat(paths_to_search):
+  for path in paths_to_search:
+    exe_path = os.path.join(path, 'clang-format')
+    if is_exe(exe_path):
+      return exe_path
+  return None
+
+# Find the full path to the clang-format executable.
+path_split = os.environ['PATH'].split(os.pathsep)
+other_paths = ['/opt/local/libexec/llvm-3.9/bin/']
+binary = GetClangFormat(other_paths + path_split)
 
 # Change this to format according to other formatting styles. See the output of
 # 'clang-format --help' for a list of supported styles. The default looks for
@@ -34,7 +46,6 @@ binary='/opt/local/libexec/llvm-3.9/bin/clang-format'
 # used.
 style = 'Google'
 
-import os
 print os.getcwd()
 
 def main():

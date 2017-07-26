@@ -36,6 +36,7 @@ chmod +x ~/tools/clang-format-diff.py
 ln -s -i ${DIR}/short_prompt_pwd.py ~/tools/short_prompt_pwd.py
 mkdir -p ~/.config/terminator
 ln -s -i ${DIR}/terminator_config ~/.config/terminator/config
+ln -s -i ${DIR}/resolve_conflicts.py ~/tools/resolve_conflicts.py
 
 echo "Setup complete."
 

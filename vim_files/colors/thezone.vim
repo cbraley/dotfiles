@@ -116,8 +116,8 @@ call Highlight("Error",             -1,   166, -1)
 
 " YouCompleteMe ----------------------------------------------------------------
 call Highlight("YcmWarningSign",    -1,   202, -1)
-call Highlight("YcmWarningLine",    -1,   130, -1)
+call Highlight("YcmWarningLine",    -1,    88, -1)
 call Highlight("YcmErrorSign",      -1,   166, -1)
-call Highlight("YcmErrorLine",      -1,   166, -1)
-call Highlight("YcmErrorSection",   -1,   166, -1)
-call Highlight("YcmWarningSection", -1,   166, -1)
+call Highlight("YcmErrorLine",      -1,    88, -1)
+call Highlight("YcmErrorSection",   -1,    88, -1)
+call Highlight("YcmWarningSection", -1,    88, -1)
