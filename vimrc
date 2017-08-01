@@ -216,13 +216,23 @@ nnoremap <silent> <Leader>/ :nohlsearch<CR>
 :nnoremap <Leader>hw :let @/="<C-r><C-w>"<CR>
 
 " Add the ability to copy and paste text into the OS's copy and paste buffer.
-"  http://stackoverflow.com/questions/3961859/how-to-copy-to-clipboard-in-vim
-"  TODO(cbraley): Make this work on MacOS too.
-"
-" ctrl-C in visual select mode yanks text to the clipboard.
-vnoremap <C-c> :w !xsel -i -b <CR><CR>
+
 " ,pfc = [P]aste [F]rom [C]lipboard.
 noremap <leader>pfc :r !xsel -o -b <CR>
+
+" Use ,ytc in visual mode to copy the selection to the clipboard.
+" TODO(cbraley): Use pbcopy on Mac.
+" ,ytx = [Y]ank [T]o [C]lipboard.
+function! CopyVisualSelectionToClipboard() range
+    let n = @n
+    silent! normal gv"ny
+    echo "Copied selection to clipboard." . system("echo -n '" . @n . "' | xsel -i -b")
+    let @n = n
+    " bonus: restore the visual selection.
+    normal! gv
+endfunction
+xnoremap <leader>ytc :call CopyVisualSelectionToClipboard()<CR>
+
 
 "2 line high command section.
 set cmdheight=2
