@@ -158,7 +158,7 @@ case "$TERM" in
 esac
 
 # We want screen to be able ot handle 256 colors.
-TERM=screen-256color
+TERM=xterm-256color
 
 force_color_prompt=yes
 if [ -n "$force_color_prompt" ]; then

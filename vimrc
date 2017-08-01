@@ -95,16 +95,32 @@ nmap <silent> <leader>kew <ESC>:KillExtraWhiteSpace<CR>
 " Markdown file support.
 autocmd BufNewFile,BufRead *.md setfiletype markdown
 
-" Workaround tmux issues.
-"https://superuser.com/questions/401926/how-to-get-shiftarrows-and-ctrlarrows-working-in-vim-in-tmux/402084#402084
+" https://github.com/timheap/.dot-files/blob/master/docs/tmux-vim-console.md
+if &term =~ '256color'
+    " Disable Background Color Erase (BCE) so that color schemes work
+    " properly when Vim is used inside tmux and GNU screen.
+    " See also http://snk.tuxfamily.org/log/vim-256color-bce.html
+    set t_ut=
+endif
 if &term =~ '^screen'
-    " tmux will send xterm-style keys when its xterm-keys option is on
+    " Page up/down keys
+    " http://sourceforge.net/p/tmux/tmux-code/ci/master/tree/FAQ
+    execute "set t_kP=\e[5;*~"
+    execute "set t_kN=\e[6;*~"
+
+    " Home/end keys
+    map <Esc>OH <Home>
+    map! <Esc>OH <Home>
+    map <Esc>OF <End>
+    map! <Esc>OF <End>
+
+    " Arrow keys
     execute "set <xUp>=\e[1;*A"
     execute "set <xDown>=\e[1;*B"
     execute "set <xRight>=\e[1;*C"
     execute "set <xLeft>=\e[1;*D"
 endif
-map <Esc>[B <Down>
+
 
 " Window resizing mappings
 "Inspired by: http://vim.wikia.com/wiki/Fast_window_resizing_with_plus/minus_keys

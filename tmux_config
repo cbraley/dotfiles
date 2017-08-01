@@ -12,6 +12,9 @@ bind - split-window -v
 unbind '"'
 unbind %
 
+# https://unix.stackexchange.com/questions/23138/esc-key-causes-a-small-delay-in-terminal-due-to-its-alt-behavior
+set -s escape-time 0
+
 # Highlight the active pane in tmux with a green border.
 set -g pane-border-fg white
 set -g pane-active-border-fg brightgreen
