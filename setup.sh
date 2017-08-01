@@ -30,6 +30,8 @@ ln -s -i ${DIR}/screenrc ~/.screenrc
 # Symlink the system's ~/.bash_profile to bash_profile
 ln -s -i ${DIR}/bash_profile ~/.bash_profile
 
+ln -s -i ${DIR}/tmux_config ~/.tmux.conf
+
 # Setup tools.
 mkdir -p ~/tools
 ln -s -i ${DIR}/clang-format.py ~/tools/clang-format.py

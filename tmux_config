@@ -1,0 +1,30 @@
+# tmux configuration.
+
+set-window-option -g xterm-keys on
+set-option -g default-terminal "screen-256color"
+
+# Set reload key to r.
+bind r source-file ~/.tmux.conf
+
+# Split panes using | and -.
+bind | split-window -h
+bind - split-window -v
+unbind '"'
+unbind %
+
+# Highlight the active pane in tmux with a green border.
+set -g pane-border-fg white
+set -g pane-active-border-fg brightgreen
+
+# Allow mouse usage.
+set -g mode-mouse on
+set -g mouse-resize-pane on
+set -g mouse-select-pane on
+set -g mouse-select-window on
+
+# Navigate between panes via alt+arrow.
+# Navigation between panes without ctrl-b.
+bind -n 'M-Left' select-pane -L
+bind -n 'M-Down' select-pane -D
+bind -n 'M-Up' select-pane -U
+bind -n 'M-Right' select-pane -R

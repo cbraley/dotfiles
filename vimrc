@@ -95,6 +95,17 @@ nmap <silent> <leader>kew <ESC>:KillExtraWhiteSpace<CR>
 " Markdown file support.
 autocmd BufNewFile,BufRead *.md setfiletype markdown
 
+" Workaround tmux issues.
+"https://superuser.com/questions/401926/how-to-get-shiftarrows-and-ctrlarrows-working-in-vim-in-tmux/402084#402084
+if &term =~ '^screen'
+    " tmux will send xterm-style keys when its xterm-keys option is on
+    execute "set <xUp>=\e[1;*A"
+    execute "set <xDown>=\e[1;*B"
+    execute "set <xRight>=\e[1;*C"
+    execute "set <xLeft>=\e[1;*D"
+endif
+map <Esc>[B <Down>
+
 " Window resizing mappings
 "Inspired by: http://vim.wikia.com/wiki/Fast_window_resizing_with_plus/minus_keys
 " Maps Ctrl-F1-F4 to split resizing; use Ctrl for more granularity
@@ -110,6 +121,10 @@ map <C-F4> <ESC><C-w>1<
 
 "Cycle through active splits
 map <C-M-F1> <C-w>w
+
+"Cycle through active tabs with ctrl-e to move left, ctrl-r to move right.
+noremap <C-w>e :tabprevious<CR>
+noremap <C-w>r :tabnext<CR>
 
 "Maximize current split
 map <C-M-F2> <C-w>=

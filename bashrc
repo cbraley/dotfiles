@@ -158,7 +158,7 @@ case "$TERM" in
 esac
 
 # We want screen to be able ot handle 256 colors.
-TERM=xterm-256color
+TERM=screen-256color
 
 force_color_prompt=yes
 if [ -n "$force_color_prompt" ]; then
@@ -205,6 +205,8 @@ shopt -s histappend
 
 # Don't store duplicate commands in bash history.
 export HISTCONTROL=ignoredups
+# https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux
+alias tmux='TERM=xterm-256color tmux'
 
 # If we are running this on a google machine, source some google-only magic
 # bash functions.
