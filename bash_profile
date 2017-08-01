@@ -8,3 +8,8 @@ esac
 if [[ $(uname) == 'Darwin' ]]; then
   source ~/.bashrc
 fi
+
+# Source ~/.bashrc when running in a tmux session.
+if ! { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
+  source ~/.bashrc
+fi
