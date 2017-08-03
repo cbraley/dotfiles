@@ -205,8 +205,14 @@ shopt -s histappend
 
 # Don't store duplicate commands in bash history.
 export HISTCONTROL=ignoredups
+
+# tmux related settings. -------------------------------------------------------
+
 # https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux
 alias tmux='TERM=xterm-256color tmux'
+
+# Use tmuxa to attach to a named tmux session.
+alias tmuxa='TERM=xterm-256color tmux a -t '
 
 # If we are running this on a google machine, source some google-only magic
 # bash functions.

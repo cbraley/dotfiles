@@ -20,14 +20,28 @@ set -g pane-border-fg white
 set -g pane-active-border-fg brightgreen
 
 # Allow mouse usage.
-set -g mode-mouse on
-set -g mouse-resize-pane on
+setw -g mode-mouse on
 set -g mouse-select-pane on
-set -g mouse-select-window on
+set -g mouse-resize-pane on
 
 # Navigate between panes via alt+arrow.
 # Navigation between panes without ctrl-b.
-bind -n 'M-Left' select-pane -L
-bind -n 'M-Down' select-pane -D
-bind -n 'M-Up' select-pane -U
+bind -n 'M-Left'  select-pane -L
+bind -n 'M-Down'  select-pane -D
+bind -n 'M-Up'    select-pane -U
 bind -n 'M-Right' select-pane -R
+
+# Increase tmux scrollback length.
+set-option -g history-limit 15000
+
+# Show tmux messages for 3 seconds.
+set-option -g display-time 3000
+
+# tmux statusline.
+# See https://i.stack.imgur.com/e63et.png for color codes.
+set -g status-fg colour0
+set -g status-bg colour108
+set -g status-left-length 80
+set -g status-left '#{?client_prefix,#[fg=colour7]#[bg=colour160],} #{session_name}'
+set -g status-right-length 60
+set -g status-right '#H ★ %a %m-%d %H:%M'

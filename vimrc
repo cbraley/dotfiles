@@ -253,7 +253,7 @@ noremap <leader>pfc :r !xsel -o -b <CR>
 
 " Use ,ytc in visual mode to copy the selection to the clipboard.
 " TODO(cbraley): Use pbcopy on Mac.
-" ,ytx = [Y]ank [T]o [C]lipboard.
+" ,ytc = [Y]ank [T]o [C]lipboard.
 function! CopyVisualSelectionToClipboard() range
     let n = @n
     silent! normal gv"ny

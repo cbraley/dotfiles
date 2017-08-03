@@ -2,13 +2,22 @@
   enabled_plugins = CustomCommandsMenu, TerminalShot, APTURLHandler, LaunchpadBugURLHandler
   inactive_color_offset = 0.72
 [keybindings]
+  cycle_prev = None
+  go_up = None
   next_tab = None
   prev_tab = None
+  go_down = None
+  close_term = None
+  cycle_next = None
+  go_right = None
+  go_left = None
 [profiles]
   [[default]]
     use_system_font = False
     font = Monospace 14
+    cursor_shape = ibeam
     background_image = None
+    cursor_color = "#f5f5f5"
     scroll_on_output = False
     copy_on_selection = True
     scrollback_infinite = True
