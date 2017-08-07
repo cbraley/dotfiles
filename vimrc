@@ -138,9 +138,10 @@ map <C-F4> <ESC><C-w>1<
 "Cycle through active splits
 map <C-M-F1> <C-w>w
 
-"Cycle through active tabs with ctrl-e to move left, ctrl-r to move right.
-noremap <C-w>e :tabprevious<CR>
-noremap <C-w>r :tabnext<CR>
+"Cycle through active tabs with ctrl-w [ to move left and ctrl-w ] to move
+"right.
+map <C-w>[ :tabprevious<CR>
+map <C-w>] :tabnext<CR>
 
 "Maximize current split
 map <C-M-F2> <C-w>=

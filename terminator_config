@@ -17,7 +17,7 @@
     font = Monospace 14
     cursor_shape = ibeam
     background_image = None
-    cursor_color = "#f5f5f5"
+    cursor_color = "#00ff0e"
     scroll_on_output = False
     copy_on_selection = True
     scrollback_infinite = True

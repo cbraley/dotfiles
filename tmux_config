@@ -31,6 +31,10 @@ bind -n 'M-Down'  select-pane -D
 bind -n 'M-Up'    select-pane -U
 bind -n 'M-Right' select-pane -R
 
+# "Aggressively" resize panes when opening a session on a larger or smaller
+# monitor.
+set-window-option -g aggressive-resize
+
 # Increase tmux scrollback length.
 set-option -g history-limit 15000
 
