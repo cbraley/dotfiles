@@ -214,6 +214,10 @@ alias tmux='TERM=xterm-256color tmux'
 # Use tmuxa to attach to a named tmux session.
 alias tmuxa='TERM=xterm-256color tmux a -t '
 
+# Use tmuxad to attach to a named session while also detaching all other
+# sessions. This will force nicer window resizing when changing monitor sizes.
+alias tmuxad='TERM=xterm-256color tmux a -d -t '
+
 # Disable "flow control" related stuff in tmux. Without this, pressing ctrl+s
 # in tmux disabled flow control which causes the screen to stop redrawing.
 # Ctrl+q can fix this, but it is still annoying. This magical incantation

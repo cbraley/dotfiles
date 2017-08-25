@@ -21,8 +21,9 @@ set -g pane-active-border-fg brightgreen
 
 # Allow mouse usage.
 setw -g mode-mouse on
-set -g mouse-select-pane on
+# Note that we don't use mouse-select-pane since it causes bugs in terminator.
 set -g mouse-resize-pane on
+set -g mouse-utf8 off
 
 # Navigate between panes via alt+arrow.
 # Navigation between panes without ctrl-b.
