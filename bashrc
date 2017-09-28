@@ -56,6 +56,9 @@ fi
 # Let's use vim for tools that respond to $EDITOR.
 export EDITOR='vim'
 
+# The command pretty_date produces a string like "1987_08_18".
+alias pretty_date='date +"%Y_%m_%d"'
+
 # Bash history configuration.
 
 # Don't put duplicate lines or lines starting with space in the history
@@ -217,6 +220,9 @@ alias tmuxa='TERM=xterm-256color tmux a -t '
 # Use tmuxad to attach to a named session while also detaching all other
 # sessions. This will force nicer window resizing when changing monitor sizes.
 alias tmuxad='TERM=xterm-256color tmux a -d -t '
+
+# Use tmux_new_session foo to start a new session named "foo".
+alias tmux_new_session='TERM=xterm-256color tmux new -s '
 
 # Disable "flow control" related stuff in tmux. Without this, pressing ctrl+s
 # in tmux disabled flow control which causes the screen to stop redrawing.

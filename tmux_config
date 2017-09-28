@@ -20,10 +20,7 @@ set -g pane-border-fg white
 set -g pane-active-border-fg brightgreen
 
 # Allow mouse usage.
-setw -g mode-mouse on
-# Note that we don't use mouse-select-pane since it causes bugs in terminator.
-set -g mouse-resize-pane on
-set -g mouse-utf8 off
+setw -g mouse on
 
 # Navigate between panes via alt+arrow.
 # Navigation between panes without ctrl-b.
@@ -31,6 +28,20 @@ bind -n 'M-Left'  select-pane -L
 bind -n 'M-Down'  select-pane -D
 bind -n 'M-Up'    select-pane -U
 bind -n 'M-Right' select-pane -R
+
+# Chaneg the coloring for active vs. inactive panes. When you return to your
+# terminal after coffee, this helps you remember where your cursor is! This only
+# works in tmux >= 2.1.
+
+# Set inactive/active window styles
+set -g window-style 'bg=colour236'
+set -g window-active-style 'bg=colour0'
+
+# Set the pane border colors.
+set -g pane-border-fg colour8
+set -g pane-border-bg colour8
+set -g pane-active-border-fg colour190
+set -g pane-active-border-bg colour190
 
 # "Aggressively" resize panes when opening a session on a larger or smaller
 # monitor.
