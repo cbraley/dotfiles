@@ -31,10 +31,11 @@ endfunction
 
 " Basics. ---------------------------------------------------------------------
 
-" Normal text.
-call Highlight("Normal",         -1,  234,     -1)
+" Normal text. Note that we use -1 here for the bg color since this will be
+" 'transparent' and use the underlying terminal color.
+call Highlight("Normal",         -1,  -1,     -1)
 " Code comments.
-call Highlight("Comment",       243,  235,     -1)
+call Highlight("Comment",       243,  -1,     -1)
 " Folded sextions.
 call Highlight("Folded",        243,  237,     -1)
 call Highlight("FoldColumn"  ,  243,  237,     -1)

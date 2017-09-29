@@ -1,6 +1,7 @@
 [global_config]
   enabled_plugins = CustomCommandsMenu, TerminalShot, APTURLHandler, LaunchpadBugURLHandler
   inactive_color_offset = 0.72
+  title_inactive_bg_color = "#000000"
 [keybindings]
   cycle_prev = None
   go_up = None
