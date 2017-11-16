@@ -20,19 +20,18 @@ imap <C-K> <ESC>:pyf ~/tools/clang-format.py<CR>
 " ,FC = [F]ormat [C]code.
 nmap <silent> <leader>fc :pyf ~/tools/clang-format.py<CR>
 
-" Clang include fixer.
-"noremap <leader>cf :pyf /google/data/ro/projects/cymbal/tools/include-fixer/clang-include-fixer.py<cr>
-"noremap <C-I> :pyf /google/data/ro/projects/cymbal/tools/include-fixer/clang-include-fixer.py<cr>
-
-" Fix deps for blaze and includes (slow)
-" Fix It All.
-"noremap <leader>fia :pyf /google/data/ro/projects/cymbal/tools/include-fixer/clang-include-fixer.py<cr>:BlazeDepsUpdate<cr>
-
 " Turn off swap files
 set noswapfile
 
-set cursorline
-set cursorcolumn
+" Only show curorcolumn highlight in the active window.
+augroup HighlightActive
+  autocmd!
+  autocmd WinEnter * set cursorcolumn
+  autocmd WinEnter * set cursorline
+
+  autocmd WinLeave * set nocursorcolumn
+  autocmd WinLeave * set nocursorline
+augroup END
 
 " Highlight column 81.
 let &colorcolumn=join([81],",")
@@ -446,6 +445,10 @@ set nocompatible
 let google_vimrc = "/usr/share/vim/google/google.vim"
 if filereadable(google_vimrc)
   execute "source" google_vimrc
+
+  " Map ,cr to clang-rename.
+  noremap <leader>cr :pyf /google/src/head/depot/google3/third_party/llvm/llvm/tools/clang/tools/clang-rename/clang-rename.py<cr>
+
   Glug youcompleteme-google
   let g:ycm_complete_in_strings = 0
 
@@ -459,6 +462,9 @@ if filereadable(google_vimrc)
     let g:ycm_enable_diagnostic_signs=0
   endif
 
+  " Set some custom YCM settings.
+  "let g:ycm_min_num_of_chars_for_completion = 1
+  "let g:ycm_add_preview_to_completeopt = 1
 endif
 filetype plugin indent on
 syntax on

@@ -32,7 +32,7 @@ if [[ "$unamestr" == 'Darwin' ]]; then
   #alias sed='gsed'
 elif [[ "$unamestr" == 'Linux' ]]; then
   # On Linux, use the nautilus file browser I like.
-  alias explore='nautilus -n `pwd` 2> /dev/null'
+  alias explore='nautilus --no-default-window '
 elif [[ "$unamestr" == 'MINGW32_NT' ]]; then
   # On windows, open windows explorer
   # TODO(cbraley): Note that this is untested!
@@ -215,11 +215,11 @@ export HISTCONTROL=ignoredups
 alias tmux='TERM=xterm-256color tmux'
 
 # Use tmuxa to attach to a named tmux session.
-alias tmuxa='TERM=xterm-256color tmux a -t '
+alias tmuxa='TERM=xterm-256color tmux attach -t '
 
 # Use tmuxad to attach to a named session while also detaching all other
 # sessions. This will force nicer window resizing when changing monitor sizes.
-alias tmuxad='TERM=xterm-256color tmux a -d -t '
+alias tmuxad='TERM=xterm-256color tmux attach -d -t '
 
 # Use tmux_new_session foo to start a new session named "foo".
 alias tmux_new_session='TERM=xterm-256color tmux new -s '
