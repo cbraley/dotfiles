@@ -3,78 +3,76 @@
   inactive_color_offset = 0.72
   title_inactive_bg_color = "#000000"
 [keybindings]
+  close_term = None
+  cycle_next = None
   cycle_prev = None
+  go_down = None
+  go_left = None
+  go_right = None
   go_up = None
   next_tab = None
   prev_tab = None
-  go_down = None
-  close_term = None
-  cycle_next = None
-  go_right = None
-  go_left = None
-[profiles]
-  [[default]]
-    use_system_font = False
-    font = Monospace 14
-    cursor_shape = ibeam
-    background_image = None
-    cursor_color = "#00ff0e"
-    scroll_on_output = False
-    copy_on_selection = True
-    scrollback_infinite = True
 [layouts]
   [[default]]
     [[[child1]]]
-      type = Terminal
       parent = window0
       profile = default
+      type = Terminal
     [[[window0]]]
-      type = Window
       parent = ""
+      type = Window
   [[xview]]
     [[[child0]]]
-      position = 3114:285
-      type = Window
       order = 0
       parent = ""
+      position = 3114:285
       size = 3073, 1398
+      type = Window
     [[[child1]]]
-      position = 569
-      type = HPaned
       order = 0
       parent = child0
+      position = 569
+      type = HPaned
     [[[child3]]]
+      order = 1
+      parent = child1
       position = 875
       type = HPaned
-      order = 1
-      parent = child1
     [[[child5]]]
+      order = 1
+      parent = child3
       position = 808
       type = HPaned
-      order = 1
-      parent = child3
     [[[terminal2]]]
-      profile = default
       command = /google/data/ro/projects/chauffeur/scs  ${CPP_BIN_FLAGS} ; bash
-      type = Terminal
       order = 0
       parent = child1
-    [[[terminal4]]]
       profile = default
-      command = cd /usr/local/google/home/cbraley/Projects/car_scripts ; bash
       type = Terminal
+    [[[terminal4]]]
+      command = cd /usr/local/google/home/cbraley/Projects/car_scripts ; bash
       order = 0
       parent = child3
-    [[[terminal7]]]
       profile = default
-      command = /google/data/ro/projects/chauffeur/tile_proxy_local  ${CPP_BIN_FLAGS}  ; bash
       type = Terminal
-      order = 1
-      parent = child5
     [[[terminal6]]]
-      profile = default
       command = /google/data/ro/projects/chauffeur/x_view  ${CPP_BIN_FLAGS}   ; bash
-      type = Terminal
       order = 0
       parent = child5
+      profile = default
+      type = Terminal
+    [[[terminal7]]]
+      command = /google/data/ro/projects/chauffeur/tile_proxy_local  ${CPP_BIN_FLAGS}  ; bash
+      order = 1
+      parent = child5
+      profile = default
+      type = Terminal
 [plugins]
+[profiles]
+  [[default]]
+    copy_on_selection = True
+    cursor_color = "#00ff0e"
+    cursor_shape = ibeam
+    font = Monospace 14
+    scrollback_infinite = True
+    use_system_font = False

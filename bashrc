@@ -72,6 +72,9 @@ shopt -s histappend
 HISTSIZE=100001
 HISTFILESIZE=200001
 
+# https://unix.stackexchange.com/questions/131504/how-to-sync-terminal-session-command-history-in-bash
+export PROMPT_COMMAND="history -a; history -n"
+
 # Allow extra bash completions if available.  /etc/bash_completion
 #  First, source the systems bash completion stuff (if it exists).
 if [ -f /etc/bash_completion ]; then
