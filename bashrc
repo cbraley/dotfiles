@@ -63,7 +63,7 @@ alias pretty_date='date +"%Y_%m_%d"'
 
 # Don't put duplicate lines or lines starting with space in the history
 # (See bash(1) for more options).
-HISTCONTROL=ignoreboth
+export HISTCONTROL=ignoreboth
 
 # Append to the history file; don't overwrite it.
 shopt -s histappend
@@ -73,7 +73,9 @@ HISTSIZE=100001
 HISTFILESIZE=200001
 
 # https://unix.stackexchange.com/questions/131504/how-to-sync-terminal-session-command-history-in-bash
-export PROMPT_COMMAND="history -a; history -n"
+# export PROMPT_COMMAND="history -a; history -n"
+# https://news.ycombinator.com/item?id=7982031
+export PROMPT_COMMAND="history -a;history -c;history -r;$PROMPT_COMMAND"
 
 # Allow extra bash completions if available.  /etc/bash_completion
 #  First, source the systems bash completion stuff (if it exists).
@@ -226,6 +228,10 @@ alias tmuxad='TERM=xterm-256color tmux attach -d -t '
 
 # Use tmux_new_session foo to start a new session named "foo".
 alias tmux_new_session='TERM=xterm-256color tmux new -s '
+
+# Use tmux_kill_session foo to delete a session named "foo".
+# You can list all session names with 'tmux ls'.
+alias tmux_kill_session='TERM=xterm-256color tmux kill-session -t '
 
 # Disable "flow control" related stuff in tmux. Without this, pressing ctrl+s
 # in tmux disabled flow control which causes the screen to stop redrawing.
