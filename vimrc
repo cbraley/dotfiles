@@ -465,6 +465,8 @@ if filereadable(google_vimrc)
   " Set some custom YCM settings.
   "let g:ycm_min_num_of_chars_for_completion = 1
   "let g:ycm_add_preview_to_completeopt = 1
+
+   Glug blaze plugin[mappings]='<leader>b'
 endif
 filetype plugin indent on
 syntax on
