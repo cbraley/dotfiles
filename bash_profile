@@ -14,4 +14,6 @@ if ! { [ "$TERM" = "screen" ] && [ -n "$TMUX" ]; } then
   source ~/.bashrc
 fi
 
+# iterm2 shell integration:
+# https://www.iterm2.com/documentation-shell-integration.html
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
