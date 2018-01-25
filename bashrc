@@ -129,6 +129,25 @@ function parse_git_branch {
   git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
+# This function returns a string like "<CLIENT_NAME>@cl/<CL_NUMBER>" if in a
+# piper client, or the empty string if not.
+function synced_cl {
+  CLIENT_TXT=$(g4 client -o)
+  CLIENT_FULL_PATH=$(echo "${CLIENT_TXT}" | grep -o Root:.* | grep -o '/.*$')
+  CL_NUM=$(echo "${CLIENT_TXT}" | grep -o  SyncChange.* | grep -o '[[:digit:]]\+')
+  if [ $? -eq 0 ]; then
+    CLIENT_NAME=$(basename ${CLIENT_FULL_PATH})
+    printf "\e[0;94m"
+    printf "${CLIENT_NAME}"
+    printf "\e[0;32m"
+    printf "@"
+    printf "\e[0;94m"
+    printf "cl/${CL_NUM}"
+  else
+    printf ""
+  fi
+}
+
 function last_exit_code {
   tmp_code=$?
   if [ $tmp_code -eq 0 ]; then
@@ -138,10 +157,13 @@ function last_exit_code {
   fi
 }
 
+
 # Notes:
 #   $STY is the current screen session (or the empty string).
+#   $\$(foo) evaluates 'foo' each time the prompt is redrawn, whereas
+#   $(foo) evalutes 'foo' once when ~/.bashrc is run.
 PROMPT_DIRTRIM=3
-PS1="$IBlue$STY$RS$IRed\$(last_exit_code)$RS$Green$BgDarkGray\D{%m/%d %R}$RS$IWhite|$RS$Blue\j$IWhite|$RS$IGreen\w$RS$IWhite($RS$Blue\$(parse_git_branch)$RS$IWhite)$RS$IRed\$$RS"
+PS1="$IBlue$STY$RS$IRed\$(last_exit_code)$RS$Green$BgDarkGray\D{%m/%d %R}$RS$IWhite|$RS$Blue\j$IWhite|$RS$IGreen\w$RS$IWhite($RS$Blue\$(parse_git_branch)\$(synced_cl)$RS$IWhite)$RS$IRed\$$RS"
 PS2="$Green$BgDarkGray...>$RS$IRed\$$RS "
 
 # -----------------------------------------------------------------------------
