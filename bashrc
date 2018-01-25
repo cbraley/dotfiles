@@ -22,10 +22,14 @@ fi
 # Always use colorized ls output.
 alias ls='ls -G'
 
-# The "explore" command opens up a file browser in the current directory.
+# The 'explore' command opens up a file browser in the current directory.
+# The 'o' command opens the specified file with whatever application the OS 
+# chooses. For example, 'o foo.png' would open the image foo.png in an image
+# viewer.
 if [[ "$unamestr" == 'Darwin' ]]; then
   # On MacOS use "open"
   alias explore='open $(pwd)'
+  alias o='open'
 
   # OS X defaults to BSD sed.  We need gnu sed for some of my bash
   # completion scrips and other things to work.
@@ -33,6 +37,7 @@ if [[ "$unamestr" == 'Darwin' ]]; then
 elif [[ "$unamestr" == 'Linux' ]]; then
   # On Linux, use the nautilus file browser I like.
   alias explore='nautilus --no-default-window $(pwd)'
+  alias o='xdg-open'
 elif [[ "$unamestr" == 'MINGW32_NT' ]]; then
   # On windows, open windows explorer
   # TODO(cbraley): Note that this is untested!
