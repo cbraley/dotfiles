@@ -137,10 +137,11 @@ function parse_git_branch {
 # This function returns a string like "<CLIENT_NAME>@cl/<CL_NUMBER>" if in a
 # piper client, or the empty string if not.
 function synced_cl {
-  CLIENT_TXT=$(g4 client -o)
-  CLIENT_FULL_PATH=$(echo "${CLIENT_TXT}" | grep -o Root:.* | grep -o '/.*$')
-  CL_NUM=$(echo "${CLIENT_TXT}" | grep -o  SyncChange.* | grep -o '[[:digit:]]\+')
-  if [ $? -eq 0 ]; then
+  if which g4 > /dev/null ; then
+    exec 2>&3
+    CLIENT_TXT=$(g4 client -o)
+    CLIENT_FULL_PATH=$(echo "${CLIENT_TXT}" | grep -o Root:.* | grep -o '/.*$')
+    CL_NUM=$(echo "${CLIENT_TXT}" | grep -o  SyncChange.* | grep -o '[[:digit:]]\+')
     CLIENT_NAME=$(basename ${CLIENT_FULL_PATH})
     printf "\e[0;94m"
     printf "${CLIENT_NAME}"
