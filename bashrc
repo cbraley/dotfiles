@@ -23,7 +23,7 @@ fi
 alias ls='ls -G'
 
 # The 'explore' command opens up a file browser in the current directory.
-# The 'o' command opens the specified file with whatever application the OS 
+# The 'o' command opens the specified file with whatever application the OS
 # chooses. For example, 'o foo.png' would open the image foo.png in an image
 # viewer.
 if [[ "$unamestr" == 'Darwin' ]]; then
@@ -137,11 +137,18 @@ function parse_git_branch {
 # This function returns a string like "<CLIENT_NAME>@cl/<CL_NUMBER>" if in a
 # piper client, or the empty string if not.
 function synced_cl {
+  # Check if the machine even has g4 installed. If not, exit early.
   if which g4 > /dev/null ; then
-    exec 2>&3
-    CLIENT_TXT=$(g4 client -o)
-    CLIENT_FULL_PATH=$(echo "${CLIENT_TXT}" | grep -o Root:.* | grep -o '/.*$')
-    CL_NUM=$(echo "${CLIENT_TXT}" | grep -o  SyncChange.* | grep -o '[[:digit:]]\+')
+    printf ""
+  fi
+
+  # If we can't parse 'g4 client -o' properly, then assume we aren't in a piper
+  # client.
+  CLIENT_TXT=$(g4 client -o)
+  CLIENT_FULL_PATH=$(echo "${CLIENT_TXT}" | grep -o Root:.* | grep -o '/.*$')
+  CL_NUM=$(echo "${CLIENT_TXT}" | \
+      grep -o  SyncChange.* | grep -o '[[:digit:]]\+')
+  if [ $? -eq 0 ]; then
     CLIENT_NAME=$(basename ${CLIENT_FULL_PATH})
     printf "\e[0;94m"
     printf "${CLIENT_NAME}"
