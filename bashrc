@@ -138,12 +138,12 @@ function parse_git_branch {
 # piper client, or the empty string if not.
 function synced_cl {
   # Check if the machine even has g4 installed. If not, exit early.
-  if which g4 > /dev/null ; then
-    printf ""
+  which g4 > /dev/null
+  if [ $? -ne 0 ]; then
+    return
   fi
 
-  # If we can't parse 'g4 client -o' properly, then assume we aren't in a piper
-  # client.
+  # If we can't parse 'g4 client -o', then assume we aren't in a piper client.
   CLIENT_TXT=$(g4 client -o)
   CLIENT_FULL_PATH=$(echo "${CLIENT_TXT}" | grep -o Root:.* | grep -o '/.*$')
   CL_NUM=$(echo "${CLIENT_TXT}" | \
