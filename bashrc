@@ -150,12 +150,16 @@ function synced_cl {
       grep -o  SyncChange.* | grep -o '[[:digit:]]\+')
   if [ $? -eq 0 ]; then
     CLIENT_NAME=$(basename ${CLIENT_FULL_PATH})
-    printf "\e[0;94m"
+    # TODO(cbraley): Printing terminal color codes here is tricky, since they
+    # have to be escaped. They also screw up tmux rendering somehow and tmux
+    # "thinks" my cursor is on the wrong line. Sometimes, I think we should 
+    # ditch all this 1970's era software and start over,.
+    #printf "\e[0;94m"
+    #printf "cl/${CL_NUM}"
     printf "${CLIENT_NAME}"
-    printf "\e[0;32m"
     printf "@"
-    printf "\e[0;94m"
     printf "cl/${CL_NUM}"
+
   else
     printf ""
   fi
@@ -176,7 +180,7 @@ function last_exit_code {
 #   $\$(foo) evaluates 'foo' each time the prompt is redrawn, whereas
 #   $(foo) evalutes 'foo' once when ~/.bashrc is run.
 PROMPT_DIRTRIM=3
-PS1="$IBlue$STY$RS$IRed\$(last_exit_code)$RS$Green$BgDarkGray\D{%m/%d %R}$RS$IWhite|$RS$Blue\j$IWhite|$RS$IGreen\w$RS$IWhite($RS$Blue\$(parse_git_branch)\$(synced_cl)$RS$IWhite)$RS$IRed\$$RS"
+PS1="$IBlue$STY$RS$IRed\$(last_exit_code)$RS$Green$BgDarkGray\D{%m/%d %R}$RS$IWhite|$RS$Blue\j$IWhite|$RS$IGreen\w$RS$IWhite($RS$IYellow\$(parse_git_branch)\$(synced_cl)$RS$IWhite)$RS$IRed\$$RS"
 PS2="$Green$BgDarkGray...>$RS$IRed\$$RS "
 
 # -----------------------------------------------------------------------------
