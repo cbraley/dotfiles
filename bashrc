@@ -152,7 +152,7 @@ function synced_cl {
     CLIENT_NAME=$(basename ${CLIENT_FULL_PATH})
     # TODO(cbraley): Printing terminal color codes here is tricky, since they
     # have to be escaped. They also screw up tmux rendering somehow and tmux
-    # "thinks" my cursor is on the wrong line. Sometimes, I think we should 
+    # "thinks" my cursor is on the wrong line. Sometimes, I think we should
     # ditch all this 1970's era software and start over,.
     #printf "\e[0;94m"
     #printf "cl/${CL_NUM}"
@@ -279,8 +279,66 @@ alias tmux_kill_session='TERM=xterm-256color tmux kill-session -t '
 # https://unix.stackexchange.com/questions/12107/how-to-unfreeze-after-accidentally-pressing-ctrl-s-in-a-terminal
 stty -ixon
 
+# Image display related. -----------------------------------------------------
+
+# Find an unused port. Since every tool at Google seems to contain 3 or more
+# HTTP servers, this requires scanning.
+function get_unused_port() {
+  for port in $(seq 4444 65000);
+  do
+    echo -ne "\035" | telnet 127.0.0.1 $port > /dev/null 2>&1;
+    [ $? -eq 1 ] && echo "$port" && break;
+  done
+}
+
+# The imdisplay <X> function displays the image at path <X>. This function
+# should work on the following setups:
+#   * Ubuntu / Goobuntu desktops via xdg-open.
+#   * MaxOS machines via the 'open' command.
+#   * MacOS iterm2 via imgcat.sh ... shows images *in* the terminal...fancy!
+#   * Any Linux variant where we can run python -m  SimpleHTTPServer.
+#     This handles the case where you are working remotely via an SSSH
+#     connection.
+# Notable, we dont' support the following configurations:
+#   * Anything with Windows cygwin.
+#   * tmux sessions on a Mac.
+#   * screen sessions.
+function imdisplay() {
+  echo "Displaying image \"$1\"..."
+
+  if [[ "${TERM_PROGRAM}" == 'iTerm2.app' ]]; then
+    echo "Using iterm2 imgcat."
+    ./imgcat.sh -p "$1"
+    return 0
+  fi
+
+  if [[ "${unamestr}" == 'Darwin' ]]; then
+    echo "MacOS without iterm2"
+    open "$1"
+    return 0
+  fi
+
+  if [[ -v $DISPLAY ]]; then
+    echo "Linux desktop with a display. ${unamestr}"
+    xdg-open "$1"
+    return 0
+  fi
+   echo "Some linux variant wihout a display ${unamestr}"
+
+   PORT="$(get_unused_port)"
+   IMAGES_DIR=$(dirname $1)
+   IMAGE_BASENAME=$(basename $1)
+   pushd ${IMAGES_DIR}
+   echo "http://${HOSTNAME}:${PORT}/${IMAGE_BASENAME}"
+   echo "Press ctrl-C when done viewing."
+   python -m SimpleHTTPServer ${PORT}  > /dev/null 2>&1
+   popd
+   return 0
+}
+
+
 # If we are running this on a google machine, source some google-only magic
-# bash functions.
+# bash functions and aliases.
 if [ -f ~/.google_internal_bashrc ]; then
     source ~/.google_internal_bashrc
 fi
