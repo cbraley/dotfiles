@@ -308,7 +308,7 @@ function imdisplay() {
 
   if [[ "${TERM_PROGRAM}" == 'iTerm2.app' ]]; then
     echo "Using iterm2 imgcat."
-    ./imgcat.sh -p "$1"
+    ~/tools/imgcat.sh -p "$1"
     return 0
   fi
 
@@ -318,7 +318,7 @@ function imdisplay() {
     return 0
   fi
 
-  if [[ -v $DISPLAY ]]; then
+  if [ -z ${DISPLAY+x} ]; then
     echo "Linux desktop with a display. ${unamestr}"
     xdg-open "$1"
     return 0

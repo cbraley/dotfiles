@@ -41,7 +41,11 @@ chmod +x ~/tools/clang-format-diff.py
 ln -s -i ${DIR}/short_prompt_pwd.py ~/tools/short_prompt_pwd.py
 mkdir -p ~/.config/terminator
 ln -s -i ${DIR}/terminator_config ~/.config/terminator/config
+
 ln -s -i ${DIR}/resolve_conflicts.py ~/tools/resolve_conflicts.py
+ln -s -i ${DIR}/imgcat.sh ~/tools/imgcat.sh
+ln -s -i ${DIR}/it2check.sh ~/tools/it2check.sh
+ln -s -i ${DIR}/imgls.sh ~/tools/imgls.sh
 
 echo "Setup complete."
 
