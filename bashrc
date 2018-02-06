@@ -306,12 +306,11 @@ function get_unused_port() {
 function imdisplay() {
   echo "Displaying image \"$1\"..."
 
-  # Note that imgcat is disabled for now due to slowness and buginess.
-  #if [[ "${TERM_PROGRAM}" == 'iTerm.app' ]]; then
-  #  echo "Using iterm2 imgcat."
-  #  ~/tools/imgcat.sh -p "$1"
-  #  return 0
-  #fi
+  if [[ "${TERM_PROGRAM}" == 'iTerm.app' ]]; then
+    echo "Using iterm2 imgcat."
+    ~/tools/imgcat.sh "$1"
+    return 0
+  fi
 
   if [[ "${unamestr}" == 'Darwin' ]]; then
     echo "MacOS without iterm2"
