@@ -95,7 +95,7 @@ if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
 fi
 
 # Setup color aliases for more readable bash colorization(no escape seqs).
-#     High Intensty.
+#     High intensity.
 IBlack="\[\033[0;90m\]"       # Black
 IRed="\[\033[0;91m\]"         # Red
 IGreen="\[\033[0;92m\]"       # Green
@@ -104,7 +104,7 @@ IBlue="\[\033[0;94m\]"        # Blue
 IPurple="\[\033[0;95m\]"      # Purple
 ICyan="\[\033[0;96m\]"        # Cyan
 IWhite="\[\033[0;97m\]"       # White
-#     Regular Colors.
+#     Regular colors.
 Black="\[\033[0;30m\]"        # Black
 Red="\[\033[0;31m\]"          # Red
 Green="\[\033[0;32m\]"        # Green
@@ -153,7 +153,7 @@ function synced_cl {
     # TODO(cbraley): Printing terminal color codes here is tricky, since they
     # have to be escaped. They also screw up tmux rendering somehow and tmux
     # "thinks" my cursor is on the wrong line. Sometimes, I think we should
-    # ditch all this 1970's era software and start over,.
+    # ditch all this 1970s era software and start over.
     #printf "\e[0;94m"
     #printf "cl/${CL_NUM}"
     printf "${CLIENT_NAME}"
@@ -178,7 +178,7 @@ function last_exit_code {
 # Notes:
 #   $STY is the current screen session (or the empty string).
 #   $\$(foo) evaluates 'foo' each time the prompt is redrawn, whereas
-#   $(foo) evalutes 'foo' once when ~/.bashrc is run.
+#   $(foo) evaluates 'foo' once when ~/.bashrc is run.
 PROMPT_DIRTRIM=3
 PS1="$IBlue$STY$RS$IRed\$(last_exit_code)$RS$Green$BgDarkGray\D{%m/%d %R}$RS$IWhite|$RS$Blue\j$IWhite|$RS$IGreen\w$RS$IWhite($RS$IYellow\$(parse_git_branch)\$(synced_cl)$RS$IWhite)$RS$IRed\$$RS"
 PS2="$Green$BgDarkGray...>$RS$IRed\$$RS "
@@ -306,34 +306,40 @@ function get_unused_port() {
 function imdisplay() {
   echo "Displaying image \"$1\"..."
 
+  # Use imgcat.sh if running directly in iTerm.
   if [[ "${TERM_PROGRAM}" == 'iTerm.app' ]]; then
     echo "Using iterm2 imgcat."
     ~/tools/imgcat.sh "$1"
     return 0
   fi
 
+  # If on a Mac, use 'open'.
   if [[ "${unamestr}" == 'Darwin' ]]; then
     echo "MacOS without iterm2"
     open "$1"
     return 0
   fi
 
+  # If on a Linux desktop with a display, run 'xdg-open'.
   if [ -z ${DISPLAY+x} ]; then
-    echo "Linux desktop with a display. ${unamestr}"
+    echo "Linux desktop ${unamestr} with a display."
     xdg-open "$1"
     return 0
   fi
-   echo "Some linux variant wihout a display ${unamestr}"
 
-   PORT="$(get_unused_port)"
-   IMAGES_DIR=$(dirname $1)
-   IMAGE_BASENAME=$(basename $1)
-   pushd ${IMAGES_DIR}
-   echo "http://${HOSTNAME}:${PORT}/${IMAGE_BASENAME}"
-   echo "Press ctrl-C when done viewing."
-   python -m SimpleHTTPServer ${PORT}  > /dev/null 2>&1
-   popd
-   return 0
+  # For all other machines (usually a Linux desktop over SSH), just launch
+  # an HTTP server to serve the images. We print a URL the user can use to
+  # browse to the images.
+  echo "OS ${unamestr}"
+  PORT="$(get_unused_port)"
+  IMAGES_DIR=$(dirname $1)
+  IMAGE_BASENAME=$(basename $1)
+  pushd ${IMAGES_DIR}
+  echo "http://${HOSTNAME}:${PORT}/${IMAGE_BASENAME}"
+  echo "Press Ctrl-C when done viewing."
+  python -m SimpleHTTPServer ${PORT}  > /dev/null 2>&1
+  popd
+  return 0
 }
 
 
