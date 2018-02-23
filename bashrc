@@ -150,12 +150,6 @@ function synced_cl {
       grep -o  SyncChange.* | grep -o '[[:digit:]]\+')
   if [ $? -eq 0 ]; then
     CLIENT_NAME=$(basename ${CLIENT_FULL_PATH})
-    # TODO(cbraley): Printing terminal color codes here is tricky, since they
-    # have to be escaped. They also screw up tmux rendering somehow and tmux
-    # "thinks" my cursor is on the wrong line. Sometimes, I think we should
-    # ditch all this 1970's era software and start over,.
-    #printf "\e[0;94m"
-    #printf "cl/${CL_NUM}"
     printf "${CLIENT_NAME}"
     printf "@"
     printf "cl/${CL_NUM}"
@@ -168,20 +162,30 @@ function synced_cl {
 function last_exit_code {
   tmp_code=$?
   if [ $tmp_code -eq 0 ]; then
-    echo ''
+    echo ""
   else
-    echo "$tmp_code  "
+    echo "${tmp_code}"
   fi
 }
 
-
 # Notes:
-#   $STY is the current screen session (or the empty string).
 #   $\$(foo) evaluates 'foo' each time the prompt is redrawn, whereas
-#   $(foo) evalutes 'foo' once when ~/.bashrc is run.
+#   $(foo) evalutes 'foo' once when ~/.bashrc is run.\
+#   Color codes have to be wrapped in \[ \] to make sure they are escaped
+#   properly. If you don't do this, you will see weird re-draw errors when using
+#   the up arrow.
 PROMPT_DIRTRIM=3
-PS1="$IBlue$STY$RS$IRed\$(last_exit_code)$RS$Green$BgDarkGray\D{%m/%d %R}$RS$IWhite|$RS$Blue\j$IWhite|$RS$IGreen\w$RS$IWhite($RS$IYellow\$(parse_git_branch)\$(synced_cl)$RS$IWhite)$RS$IRed\$$RS"
-PS2="$Green$BgDarkGray...>$RS$IRed\$$RS "
+SEP="|"
+BRIGHT=$(tput bold)
+GREEN="$(tput setaf 2)"
+RED=$(tput setaf 1)
+WHITE=$(tput setaf 7)
+YELLOW="$(tput setaf 3)"
+
+RESET=$(tput sgr0)
+
+PS1="\[${RED}\]\$(last_exit_code)\[${WHITE}\]${SEP}\[${GREEN}\]b\j\[${WHITE}\]${SEP}\[${GREEN}\]\w\[${WHITE}\]${SEP}\[${YELLOW}\]\[${BRIGHT}\]\$(parse_git_branch)\$(synced_cl)\[${RESET}\]\[${WHITE}\] $"
+PS2="... $"
 
 # -----------------------------------------------------------------------------
 # Boilerplate not added by me -------------------------------------------------
@@ -209,24 +213,24 @@ TERM=xterm-256color
 
 force_color_prompt=yes
 if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-        # We have color support; assume it's compliant with Ecma-48
-        # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-        # a case would tend to support setf rather than setaf.)
-        color_prompt=yes
-    else
-        color_prompt=
-    fi
+  if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
+  else
+    color_prompt=
+  fi
 fi
 
 # Enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ls='ls --color=auto'
 
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+  alias grep='grep --color=auto'
+  alias fgrep='fgrep --color=auto'
+  alias egrep='egrep --color=auto'
 fi
 
 # Add an "alert" alias for long running commands.  Use like so:
