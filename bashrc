@@ -170,7 +170,7 @@ function last_exit_code {
 
 # Notes:
 #   $\$(foo) evaluates 'foo' each time the prompt is redrawn, whereas
-#   $(foo) evalutes 'foo' once when ~/.bashrc is run.\
+#   $(foo) evaluates 'foo' once when ~/.bashrc is run.\
 #   Color codes have to be wrapped in \[ \] to make sure they are escaped
 #   properly. If you don't do this, you will see weird re-draw errors when using
 #   the up arrow.
@@ -184,8 +184,8 @@ YELLOW="$(tput setaf 3)"
 
 RESET=$(tput sgr0)
 
-PS1="\[${RED}\]\$(last_exit_code)\[${WHITE}\]${SEP}\[${GREEN}\]b\j\[${WHITE}\]${SEP}\[${GREEN}\]\w\[${WHITE}\]${SEP}\[${YELLOW}\]\[${BRIGHT}\]\$(parse_git_branch)\$(synced_cl)\[${RESET}\]\[${WHITE}\] $"
-PS2="... $"
+PS1="\[${RED}\]\$(last_exit_code)\[${WHITE}\]${SEP}\[${GREEN}\]b\j\[${WHITE}\]${SEP}\[${GREEN}\]\w\[${WHITE}\]${SEP}\[${YELLOW}\]\[${BRIGHT}\]\$(parse_git_branch)\$(synced_cl)\[${RESET}\]\[${WHITE}\]$ "
+PS2="\[${GREEN}\]...\[${RESET}\]\[${WHITE}\]$ "
 
 # -----------------------------------------------------------------------------
 # Boilerplate not added by me -------------------------------------------------
