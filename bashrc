@@ -184,8 +184,8 @@ YELLOW="$(tput setaf 3)"
 
 RESET=$(tput sgr0)
 
-PS1="\[${RED}\]\$(last_exit_code)\[${WHITE}\]${SEP}\[${GREEN}\]b\j\[${WHITE}\]${SEP}\[${GREEN}\]\w\[${WHITE}\]${SEP}\[${YELLOW}\]\[${BRIGHT}\]\$(parse_git_branch)\$(synced_cl)\[${RESET}\]\[${WHITE}\]$ "
-PS2="\[${GREEN}\]...\[${RESET}\]\[${WHITE}\]$ "
+PS1="\[${RED}\]\$(last_exit_code)\[${WHITE}\]${SEP}\[${GREEN}\]b\j\[${WHITE}\]${SEP}\[${GREEN}\]\w\[${WHITE}\]${SEP}\[${YELLOW}\]\[${BRIGHT}\]\$(parse_git_branch)\$(synced_cl)\[${RESET}\]\[${WHITE}\]►"
+PS2="\[${GREEN}\]...\[${RESET}\]\[${WHITE}\]►"
 
 # -----------------------------------------------------------------------------
 # Boilerplate not added by me -------------------------------------------------
@@ -350,5 +350,5 @@ function imdisplay() {
 # If we are running this on a google machine, source some google-only magic
 # bash functions and aliases.
 if [ -f ~/.google_internal_bashrc ]; then
-    source ~/.google_internal_bashrc
+  source ~/.google_internal_bashrc
 fi
