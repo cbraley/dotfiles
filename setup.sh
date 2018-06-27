@@ -30,6 +30,10 @@ ln -s -i ${DIR}/screenrc ~/.screenrc
 # Symlink the system's ~/.bash_profile to bash_profile
 ln -s -i ${DIR}/bash_profile ~/.bash_profile
 
+# Symlink the system's ~/.gdbinit to gdbinit
+ln -s -i ${DIR}/gdbinit ~/.gdbinit
+
+# Symlink the system's ~/.tmux.conf to tmux_config
 ln -s -i ${DIR}/tmux_config ~/.tmux.conf
 
 # Setup tools.

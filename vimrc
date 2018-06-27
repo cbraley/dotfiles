@@ -466,6 +466,10 @@ if filereadable(google_vimrc)
   "let g:ycm_min_num_of_chars_for_completion = 1
   "let g:ycm_add_preview_to_completeopt = 1
 
+   " Try using clangd for faster completation:
+   " https://g3doc.corp.google.com/devtools/c/g3doc/clangd/index.md?cl=head
+   let g:ycm_use_clangd=1
+
    Glug blaze plugin[mappings]='<leader>b'
 endif
 filetype plugin indent on
