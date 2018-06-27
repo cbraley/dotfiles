@@ -20,7 +20,7 @@ document vecelem
 end
 
 # Handy macro to print everything about this frame.
-define frame
+define frameinfo
   info frame
   info args
   info locals
