@@ -233,7 +233,7 @@ function parse_git_dirty {
 		echo ""
 	fi
 }
-PS1="\[\e[33m\]|\[\e[m\]\[\e[31m\]\$(last_exit_code)\[\e[m\]\[\e[33;40m\]|\[\e[m\]\[\e[32m\]slash_j\[\e[m\]\[\e[33m\]|\[\e[m\]\w\[\e[33m\]|\[\e[m\]\[\e[37m\]\`parse_git_branch\`\$(synced_cl)\[\e[m\]\[\e[36m\]\\$\[\e[m\] "
+PS1="\[\e[33m\]|\[\e[m\]\[\e[31m\]\$(last_exit_code)\[\e[m\]\[\e[33;40m\]|\[\e[m\]\[\e[32m\]\j\[\e[m\]\[\e[33m\]|\[\e[m\]\w\[\e[33m\]|\[\e[m\]\[\e[37m\]\`parse_git_branch\`\$(synced_cl)\[\e[m\]\[\e[36m\]\\$\[\e[m\] "
 PS2="...$"
 
 # -----------------------------------------------------------------------------
