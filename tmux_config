@@ -25,7 +25,7 @@ bind -n 'M-Down'  select-pane -D
 bind -n 'M-Up'    select-pane -U
 bind -n 'M-Right' select-pane -R
 
-# Chaneg the coloring for active vs. inactive panes. When you return to your
+# Change the coloring for active vs. inactive panes. When you return to your
 # terminal after coffee, this helps you remember where your cursor is! This only
 # works in tmux >= 2.1.
 
@@ -44,7 +44,7 @@ set -g pane-active-border-bg colour108
 # monitor.
 set-window-option -g aggressive-resize
 
-# Increase tmux scrollback length.
+# Increase tmux scrollback length
 set-option -g history-limit 35000
 
 # Show tmux messages for 5 seconds.
@@ -52,9 +52,11 @@ set-option -g display-time 5000
 
 # tmux statusline.
 # See https://i.stack.imgur.com/e63et.png for color codes.
+# We show a fancy magnifying glass symbol if the pane is zoomed in.
 set -g status-fg colour0
 set -g status-bg colour108
 set -g status-left-length 80
-set -g status-left '#{?client_prefix,#[fg=colour7]#[bg=colour160],} #{session_name}'
+set -g status-left '#{?client_prefix,#[fg=colour7]#[bg=colour160],} #{session_name} #{?window_zoomed_flag,🔍,}'
 set -g status-right-length 60
 set -g status-right '#H ★ %a %m-%d %H:%M'
+

@@ -450,7 +450,13 @@ if filereadable(google_vimrc)
   noremap <leader>cr :pyf /google/src/head/depot/google3/third_party/llvm/llvm/tools/clang/tools/clang-rename/clang-rename.py<cr>
 
   Glug youcompleteme-google
+  " Try using clangd for faster completation:
+  " https://g3doc.corp.google.com/devtools/c/g3doc/clangd/index.md?cl=head
+  let g:ycm_use_clangd = 1
+  let g:ycm_autoclose_preview_window_after_insertion = 1
+  let g:ycm_always_populate_location_list = 1
   let g:ycm_complete_in_strings = 0
+  "let g:ycm_clangd_binary_path='/usr/bin/clangd --index-service=blade:fozzie'
 
   " In vim versions >= 8 we can leave the "gutter" column on. In earlier
   " versions of vim YCM caused the "gutter" to flicker distractingly whenever
@@ -462,15 +468,7 @@ if filereadable(google_vimrc)
     let g:ycm_enable_diagnostic_signs=0
   endif
 
-  " Set some custom YCM settings.
-  "let g:ycm_min_num_of_chars_for_completion = 1
-  "let g:ycm_add_preview_to_completeopt = 1
-
-   " Try using clangd for faster completation:
-   " https://g3doc.corp.google.com/devtools/c/g3doc/clangd/index.md?cl=head
-   let g:ycm_use_clangd=1
-
-   Glug blaze plugin[mappings]='<leader>b'
+  Glug blaze plugin[mappings]='<leader>b'
 endif
 filetype plugin indent on
 syntax on

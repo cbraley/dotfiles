@@ -1,9 +1,11 @@
 [global_config]
   enabled_plugins = CustomCommandsMenu, TerminalShot, APTURLHandler, LaunchpadBugURLHandler
   inactive_color_offset = 0.72
+  smart_copy = False
   title_inactive_bg_color = "#000000"
 [keybindings]
   close_term = None
+  copy = <Primary><Shift>c
   cycle_next = None
   cycle_prev = None
   go_down = None
