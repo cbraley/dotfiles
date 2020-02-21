@@ -46,7 +46,7 @@ binary = GetClangFormat(other_paths + path_split)
 # used.
 style = 'Google'
 
-print os.getcwd()
+#print os.getcwd()
 
 def main():
   # Get the current text.
@@ -59,7 +59,7 @@ def main():
   # Determine the cursor position.
   cursor = int(vim.eval('line2byte(line("."))+col(".")')) - 2
   if cursor < 0:
-    print 'Couldn\'t determine cursor position. Is your file empty?'
+    print('Couldn\'t determine cursor position. Is your file empty?')
     return
 
   # Avoid flashing an ugly, ugly cmd prompt on Windows when invoking clang-format.
@@ -76,11 +76,13 @@ def main():
   p = subprocess.Popen(command,
                        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                        stdin=subprocess.PIPE, startupinfo=startupinfo)
-  stdout, stderr = p.communicate(input=text)
+  stdout, stderr = p.communicate(input=text.encode())
+  stdout = stdout.decode()
+  stderr = stderr.decode()
 
   # If successful, replace buffer contents.
   if stderr:
-    print stderr
+    print(stderr)
 
   if not stdout:
     print ('No output from clang-format (crashed?).\n' +

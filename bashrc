@@ -36,8 +36,7 @@ if [[ "$unamestr" == 'Darwin' ]]; then
   #alias sed='gsed'
 elif [[ "$unamestr" == 'Linux' ]]; then
   # On Linux, use the nautilus file browser I like.
-  alias explore='nautilus --no-default-window $(pwd)'
-  alias o='xdg-open'
+  alias explore='xdg-open .'
 elif [[ "$unamestr" == 'MINGW32_NT' ]]; then
   # On windows, open windows explorer
   # TODO(cbraley): Note that this is untested!
@@ -305,6 +304,8 @@ shopt -s histappend
 
 # Don't store duplicate commands in bash history.
 export HISTCONTROL=ignoredups
+
+alias WEATHER_REPORT='curl http://wttr.in/'
 
 # tmux related settings. -------------------------------------------------------
 

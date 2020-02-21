@@ -15,8 +15,8 @@ nmap <silent> <leader>sv :so $MYVIMRC<CR>
 
 " Clang format mappings
 " Use ctrl-K or ,fc to [F]ormat [C]ode
-map <C-K> :pyf ~/tools/clang-format.py<CR>
-imap <C-K> <ESC>:pyf ~/tools/clang-format.py<CR>
+map <C-K> :py3f ~/tools/clang-format.py<CR>
+imap <C-K> <ESC>:py3f ~/tools/clang-format.py<CR>
 " ,FC = [F]ormat [C]code.
 nmap <silent> <leader>fc :pyf ~/tools/clang-format.py<CR>
 
@@ -328,6 +328,11 @@ function! MyTabLine()
       if getbufvar(b, "&modified")
         let m += 1
       endif
+
+      " Avoid very long tab names for bufffers with many splits.
+      if strlen(n) > 10
+        break
+      endif
     endfor  " End loop over buffers.
 
     "let n .= fnamemodify(bufname(buflist[tabpagewinnr(i + 1) - 1]), ':t')
@@ -432,7 +437,7 @@ endfunction
 
 "Highlight groups
 
-" Highlight text like TODO, FIXME, WARNING, and ERROR
+" Highlight text like TODO, FIXME, WARNING, and ERROR.
 highlight SpecialText term=bold ctermbg=Yellow guibg=Yellow ctermfg=red guifg=red
 call matchadd("SpecialText", "TODO.*")
 call matchadd("SpecialText", "FIXME.*")
@@ -445,9 +450,6 @@ set nocompatible
 let google_vimrc = "/usr/share/vim/google/google.vim"
 if filereadable(google_vimrc)
   execute "source" google_vimrc
-
-  " Map ,cr to clang-rename.
-  noremap <leader>cr :pyf /google/src/head/depot/google3/third_party/llvm/llvm/tools/clang/tools/clang-rename/clang-rename.py<cr>
 
   Glug youcompleteme-google
   " Try using clangd for faster completation:
