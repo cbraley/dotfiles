@@ -42,7 +42,7 @@ set -g pane-active-border-bg colour108
 
 # "Aggressively" resize panes when opening a session on a larger or smaller
 # monitor.
-set-window-option -g aggressive-resize
+#set-window-option -g aggressive-resize
 
 # Increase tmux scrollback length
 set-option -g history-limit 35000

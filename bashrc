@@ -310,7 +310,10 @@ alias WEATHER_REPORT='curl http://wttr.in/'
 # tmux related settings. -------------------------------------------------------
 
 # https://unix.stackexchange.com/questions/1045/getting-256-colors-to-work-in-tmux
-alias tmux='TERM=xterm-256color tmux'
+alias tmux='TERM=xterm-256color tmux '
+
+# Use tmuxa to attach to a named tmux session.
+alias tmuxls='TERM=xterm-256color tmux list-sessions '
 
 # Use tmuxa to attach to a named tmux session.
 alias tmuxa='TERM=xterm-256color tmux attach -t '

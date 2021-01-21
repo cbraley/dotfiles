@@ -224,6 +224,11 @@ nmap <silent> <leader>tns <ESC>:call NumberToggle()<ESC><CR>
 " SR = [S]earch and [R]eplace.
 :nnoremap <Leader>sr :%s/\<<C-r><C-w>\>/<C-r><C-w>/gci
 
+
+" ,rc for [r]eflow [c]omment.
+" This requires a visual selection.
+:nnoremap <Leader>rc <ESC>gq
+
 "Disable Ex mode.
 nnoremap Q <nop>
 
@@ -458,7 +463,23 @@ if filereadable(google_vimrc)
   let g:ycm_autoclose_preview_window_after_insertion = 1
   let g:ycm_always_populate_location_list = 1
   let g:ycm_complete_in_strings = 0
+  let g:ycm_auto_trigger = 1
+  let g:ycm_seed_identifiers_with_syntax = 1
+  "let g:ycm_key_list_select_completion = ['<Enter>']
+  let g:ycm_filepath_completion_use_working_dir = 0
   "let g:ycm_clangd_binary_path='/usr/bin/clangd --index-service=blade:fozzie'
+
+  let g:ycm_auto_hover=''
+
+  " Only trigger on ctrl->space.
+  let g:ycm_auto_trigger = 0
+
+  " Use ctrl+o and ctrl+i to cycle buffers.
+  nnoremap <leader>gd :YcmCompleter GoToDefinition<CR>
+  nnoremap <leader>gl :YcmCompleter GoToDeclaration<CR>
+  nnoremap <leader>gc :YcmCompleter GetDoc<CR>
+  nnoremap <leader>gt :YcmCompleter GetType<CR>
+  nnoremap <leader>gi :YcmCompleter GoToInclude<CR>
 
   " In vim versions >= 8 we can leave the "gutter" column on. In earlier
   " versions of vim YCM caused the "gutter" to flicker distractingly whenever
@@ -471,6 +492,13 @@ if filereadable(google_vimrc)
   endif
 
   Glug blaze plugin[mappings]='<leader>b'
+
+  " ,sf = [s]how [f]iles
+  " This command shows the files modified in the current piper client.
+  nmap <silent> <leader>sf :PiperSelectActiveFiles<CR>
+
+  Glug relatedfiles plugin[mappings]
+
 endif
 filetype plugin indent on
 syntax on
