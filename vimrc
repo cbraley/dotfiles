@@ -469,10 +469,27 @@ if filereadable(google_vimrc)
   let g:ycm_filepath_completion_use_working_dir = 0
   "let g:ycm_clangd_binary_path='/usr/bin/clangd --index-service=blade:fozzie'
 
+  nnoremap <leader>gt :YcmCompleter GetType<CR>
+
   let g:ycm_auto_hover=''
 
   " Only trigger on ctrl->space.
   let g:ycm_auto_trigger = 0
+
+  let g:ycm_auto_hover = 1
+  nmap <leader>D <plug>(YCMHover)
+
+  augroup MyYCMCustom
+    autocmd!
+    autocmd FileType c,cpp let b:ycm_hover = {
+      \ 'command': 'GetDoc',
+      \ 'syntax': &filetype
+      \ }
+  augroup END
+
+
+  " Custom arguments to clangd.
+  let g:ycm_clangd_args=["--blaze-args=--experimental_deps_ok"]
 
   " Use ctrl+o and ctrl+i to cycle buffers.
   nnoremap <leader>gd :YcmCompleter GoToDefinition<CR>
