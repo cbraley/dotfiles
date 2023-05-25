@@ -456,10 +456,23 @@ let google_vimrc = "/usr/share/vim/google/google.vim"
 if filereadable(google_vimrc)
   execute "source" google_vimrc
 
+  " Let CtrlP not go all the way up to the root of the client. Instead,
+  " consider a METADATA file to delimit a project.
+  "let g:ctrlp_root_markers = ['METADATA']
+
+  let g:ctrlp_working_path_mode = 0
+  let g:ctrlp_use_caching = 1
+  let g:ctrlp_working_path_mode = 0
+  let g:ctrlp_user_command = 'echo %s > /dev/null; find waymo/onboard/perception/  waymo/perception/  -type f -not -name  ".*"'
+  let g:ctrlp_clear_cache_on_exit = 0
+
+  let g:ctrlp_map = '<c-p>'
+  let g:ctrlp_cmd = 'CtrlP'
+
   Glug youcompleteme-google
   " Try using clangd for faster completation:
   " https://g3doc.corp.google.com/devtools/c/g3doc/clangd/index.md?cl=head
-  let g:ycm_use_clangd = 1
+  "let g:ycm_use_clangd = 1
   let g:ycm_autoclose_preview_window_after_insertion = 1
   let g:ycm_always_populate_location_list = 1
   let g:ycm_complete_in_strings = 0
@@ -471,7 +484,7 @@ if filereadable(google_vimrc)
 
   nnoremap <leader>gt :YcmCompleter GetType<CR>
 
-  let g:ycm_auto_hover=''
+  "let g:ycm_auto_hover=''
 
   " Only trigger on ctrl->space.
   let g:ycm_auto_trigger = 0
@@ -489,7 +502,8 @@ if filereadable(google_vimrc)
 
 
   " Custom arguments to clangd.
-  let g:ycm_clangd_args=["--blaze-args=--experimental_deps_ok"]
+  "let g:ycm_clangd_args=["--blaze-args='--experimental_deps_ok --nocheck_visibility_for_experimental '"]
+  let g:ycm_clangd_args=["-blaze-args=--nocheck_visibility"]
 
   " Use ctrl+o and ctrl+i to cycle buffers.
   nnoremap <leader>gd :YcmCompleter GoToDefinition<CR>
@@ -503,7 +517,7 @@ if filereadable(google_vimrc)
   " a compiler error was introduced.
   if v:version >= 8
     set signcolumn=yes
-  elseif
+  else
     " Turn of YCM diagnostics in the gutter in older versions of Vim.
     let g:ycm_enable_diagnostic_signs=0
   endif

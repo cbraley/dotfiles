@@ -1,7 +1,7 @@
 # tmux configuration.
 
 set-window-option -g xterm-keys on
-set-option -g default-terminal "screen-256color"
+set-option -g default-terminal "tmux-256color"
 
 # Set reload key to r.
 bind r source-file ~/.tmux.conf
@@ -35,10 +35,10 @@ set -g window-style 'bg=colour236'
 set -g window-active-style 'bg=colour234'
 
 # Set the pane border colors.
-set -g pane-border-fg colour8
-set -g pane-border-bg colour8
-set -g pane-active-border-fg colour108
-set -g pane-active-border-bg colour108
+#set -g pane-border-fg colour8
+#set -g pane-border-bg colour8
+#set -g pane-active-border-fg colour108
+#set -g pane-active-border-bg colour108
 
 # "Aggressively" resize panes when opening a session on a larger or smaller
 # monitor.

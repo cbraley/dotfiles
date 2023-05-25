@@ -158,13 +158,9 @@ function synced_cl {
   fi
 }
 
-function last_exit_code {
-  tmp_code=$?
-  if [ $tmp_code -eq 0 ]; then
-    echo ""
-  else
-    echo "${tmp_code}"
-  fi
+function num_bg_tasks {
+  jobs_res=`jobs | wc -l`
+  echo "${jobs_res}"
 }
 
 # Notes:
@@ -183,7 +179,7 @@ YELLOW="$(tput setaf 3)"
 
 RESET=$(tput sgr0)
 
-#PS1="\[${RED}\]\$(last_exit_code)\[${WHITE}\]${SEP}\[${GREEN}\]b\j\[${WHITE}\]${SEP}\[${GREEN}\]\w\[${WHITE}\]${SEP}\[${YELLOW}\]\[${BRIGHT}\]\$(parse_git_branch)\$(synced_cl)\[${RESET}\]\[${WHITE}\]►"
+#PS1="\[${RED}\]\$(num_bg_tasks)\[${WHITE}\]${SEP}\[${GREEN}\]b\j\[${WHITE}\]${SEP}\[${GREEN}\]\w\[${WHITE}\]${SEP}\[${YELLOW}\]\[${BRIGHT}\]\$(parse_git_branch)\$(synced_cl)\[${RESET}\]\[${WHITE}\]►"
 #PS2="\[${GREEN}\]...\[${RESET}\]\[${WHITE}\]►"
 
 # get current branch in git repo
@@ -200,39 +196,39 @@ function parse_git_branch() {
 
 # get current status of git repo
 function parse_git_dirty {
-	status=`git status 2>&1 | tee`
-	dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
-	untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
-	ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
-	newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
-	renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
-	deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
-	bits=''
-	if [ "${renamed}" == "0" ]; then
-		bits=">${bits}"
-	fi
-	if [ "${ahead}" == "0" ]; then
-		bits="*${bits}"
-	fi
-	if [ "${newfile}" == "0" ]; then
-		bits="+${bits}"
-	fi
-	if [ "${untracked}" == "0" ]; then
-		bits="?${bits}"
-	fi
-	if [ "${deleted}" == "0" ]; then
-		bits="x${bits}"
-	fi
-	if [ "${dirty}" == "0" ]; then
-		bits="!${bits}"
-	fi
-	if [ ! "${bits}" == "" ]; then
-		echo " ${bits}"
-	else
-		echo ""
-	fi
+  status=`git status 2>&1 | tee`
+  dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
+  untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
+  ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
+  newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
+  renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
+  deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
+  bits=''
+  if [ "${renamed}" == "0" ]; then
+    bits=">${bits}"
+  fi
+  if [ "${ahead}" == "0" ]; then
+    bits="*${bits}"
+  fi
+  if [ "${newfile}" == "0" ]; then
+    bits="+${bits}"
+  fi
+  if [ "${untracked}" == "0" ]; then
+    bits="?${bits}"
+  fi
+  if [ "${deleted}" == "0" ]; then
+    bits="x${bits}"
+  fi
+  if [ "${dirty}" == "0" ]; then
+    bits="!${bits}"
+  fi
+  if [ ! "${bits}" == "" ]; then
+    echo " ${bits}"
+  else
+    echo ""
+  fi
 }
-PS1="\[\e[33m\]|\[\e[m\]\[\e[31m\]\$(last_exit_code)\[\e[m\]\[\e[33;40m\]|\[\e[m\]\[\e[32m\]\j\[\e[m\]\[\e[33m\]|\[\e[m\]\w\[\e[33m\]|\[\e[m\]\[\e[37m\]\`parse_git_branch\`\$(synced_cl)\[\e[m\]\[\e[36m\]\\$\[\e[m\] "
+PS1="\[\e[33m\]|\[\e[m\]\[\e[31m\]\$(num_bg_tasks)\[\e[m\]\[\e[33;40m\]|\[\e[m\]\[\e[32m\]\j\[\e[m\]\[\e[33m\]|\[\e[m\]\w\[\e[33m\]|\[\e[m\]\[\e[37m\]\`parse_git_branch\`\$(synced_cl)\[\e[m\]\[\e[36m\]\\$\[\e[m\] "
 PS2="...$"
 
 # -----------------------------------------------------------------------------
@@ -405,3 +401,4 @@ function imdisplay() {
 if [ -f ~/.google_internal_bashrc ]; then
   source ~/.google_internal_bashrc
 fi
+alias launch_sim_job=/google/bin/releases/waymo-sim-insights/tools/launch_sim_job
